@@ -1,0 +1,63 @@
+{
+    "name": "bytestgear/laravel-accountable",
+    "description": "Saves the user responsible for creating, modifying, or deleting an Eloquent model",
+    "type": "library",
+    "keywords":
+    [
+        "testgear",
+        "created",
+        "modified",
+        "deleted",
+        "user",
+        "laravel"
+    ],
+    "authors": [
+        {
+            "name": "Thijs Kok",
+            "email": "tkok@testmonitor.com",
+            "homepage": "https://www.testmonitor.com/",
+            "role": "Lead Developer"
+        },
+        {
+            "name": "Stephan Grootveld",
+            "email": "sgrootveld@testmonitor.com",
+            "homepage": "https://www.testmonitor.com/",
+            "role": "Developer"
+        },
+        {
+            "name": "Frank Keulen",
+            "email": "fkeulen@testmonitor.com",
+            "homepage": "https://www.testmonitor.com/",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php" : "^7.0",
+        "illuminate/support": "~5.2",
+        "illuminate/database": "~5.2",
+        "illuminate/config": "~5.2",
+        "illuminate/contracts": "~5.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7",
+        "squizlabs/php_codesniffer": "2.*",
+        "orchestra/testbench": "~3.3.0|~3.4.0",
+        "orchestra/database": "~3.3.0|~3.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ByTestGear\\Accountable\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ByTestGear\\Accountable\\Test\\": "tests"
+        }
+    },
+
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "license": "MIT"
+}
