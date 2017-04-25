@@ -34,8 +34,11 @@ class SaveCreatedByUserTest extends TestCase
         $record->save();
 
         $this->assertEquals($record->created_by_user_id, $user->id);
+        $this->assertEquals($record->updated_by_user_id, User::first()->id);
         $this->assertEquals($record->createdByUser->name, $user->name);
+        $this->assertEquals($record->updatedByUser->name, User::first()->name);
         $this->assertInstanceOf(get_class($user), $record->createdByUser);
+        $this->assertInstanceOf(get_class($user), $record->updatedByUser);
     }
 
     /** @test */
@@ -45,7 +48,9 @@ class SaveCreatedByUserTest extends TestCase
         $record->save();
 
         $this->assertNull($record->created_by_user_id);
+        $this->assertNull($record->updated_by_user_id);
         $this->assertNull($record->createdByUser);
+        $this->assertNull($record->updatedByUser);
     }
 
     /** @test */
@@ -80,5 +85,6 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertCount(1, $results);
         $this->assertEquals($record->id, $results->first()->id);
         $this->assertEquals($record->createdByUser, auth()->user());
+        $this->assertEquals($record->updatedByUser, auth()->user());
     }
 }
