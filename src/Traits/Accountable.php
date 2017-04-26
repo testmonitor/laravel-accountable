@@ -32,7 +32,7 @@ trait Accountable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function createdByUser()
+    public function createdBy()
     {
         return $this->belongsTo($this->accountableUserClass(), config('accountable.column_names.created_by'));
     }
@@ -42,7 +42,7 @@ trait Accountable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function updatedByUser()
+    public function updatedBy()
     {
         return $this->belongsTo($this->accountableUserClass(), config('accountable.column_names.updated_by'));
     }
@@ -52,7 +52,7 @@ trait Accountable
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function deletedByUser()
+    public function deletedBy()
     {
         return $this->belongsTo($this->accountableUserClass(), config('accountable.column_names.deleted_by'));
     }
@@ -65,7 +65,7 @@ trait Accountable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeCreatedBy(Builder $query, Model $user)
+    public function scopeOnlyCreatedBy(Builder $query, Model $user)
     {
         return $query->where(config('accountable.column_names.created_by'), $user->getKey());
     }
@@ -90,7 +90,7 @@ trait Accountable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeUpdatedBy(Builder $query, Model $user)
+    public function scopeOnlyUpdatedBy(Builder $query, Model $user)
     {
         return $query->where(config('accountable.column_names.updated_by'), $user->getKey());
     }
@@ -103,7 +103,7 @@ trait Accountable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeDeletedBy(Builder $query, Model $user)
+    public function scopeOnlyDeletedBy(Builder $query, Model $user)
     {
         return $query->where(config('accountable.column_names.deleted_by'), $user->getKey());
     }

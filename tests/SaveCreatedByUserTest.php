@@ -35,10 +35,10 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertEquals($record->created_by_user_id, $user->id);
         $this->assertEquals($record->updated_by_user_id, User::first()->id);
-        $this->assertEquals($record->createdByUser->name, $user->name);
-        $this->assertEquals($record->updatedByUser->name, User::first()->name);
-        $this->assertInstanceOf(get_class($user), $record->createdByUser);
-        $this->assertInstanceOf(get_class($user), $record->updatedByUser);
+        $this->assertEquals($record->createdBy->name, $user->name);
+        $this->assertEquals($record->updatedBy->name, User::first()->name);
+        $this->assertInstanceOf(get_class($user), $record->createdBy);
+        $this->assertInstanceOf(get_class($user), $record->updatedBy);
     }
 
     /** @test */
@@ -49,8 +49,8 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertNull($record->created_by_user_id);
         $this->assertNull($record->updated_by_user_id);
-        $this->assertNull($record->createdByUser);
-        $this->assertNull($record->updatedByUser);
+        $this->assertNull($record->createdBy);
+        $this->assertNull($record->updatedBy);
     }
 
     /** @test */
@@ -66,7 +66,7 @@ class SaveCreatedByUserTest extends TestCase
         $record = new $this->record();
         $record->save();
 
-        $results = (new $this->record())->createdBy($user)->get();
+        $results = (new $this->record())->onlyCreatedBy($user)->get();
 
         $this->assertCount(1, $results);
         $this->assertEquals($record->id, $results->first()->id);
@@ -84,7 +84,7 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertCount(1, $results);
         $this->assertEquals($record->id, $results->first()->id);
-        $this->assertEquals($record->createdByUser, auth()->user());
-        $this->assertEquals($record->updatedByUser, auth()->user());
+        $this->assertEquals($record->createdBy, auth()->user());
+        $this->assertEquals($record->updatedBy, auth()->user());
     }
 }

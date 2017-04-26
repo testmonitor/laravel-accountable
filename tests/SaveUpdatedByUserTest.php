@@ -38,8 +38,8 @@ class SaveUpdatedByUserTest extends TestCase
         $record->save();
 
         $this->assertEquals($record->updated_by_user_id, User::first()->id);
-        $this->assertEquals($record->updatedByUser->name, User::first()->name);
-        $this->assertInstanceOf(get_class(User::first()), $record->updatedByUser);
+        $this->assertEquals($record->updatedBy->name, User::first()->name);
+        $this->assertInstanceOf(get_class(User::first()), $record->updatedBy);
     }
 
     /** @test */
@@ -52,7 +52,7 @@ class SaveUpdatedByUserTest extends TestCase
         $record->save();
 
         $this->assertNull($record->updated_by_user_id);
-        $this->assertNull($record->updatedByUser);
+        $this->assertNull($record->updatedBy);
     }
 
     /** @test */
@@ -74,7 +74,7 @@ class SaveUpdatedByUserTest extends TestCase
         $record->name = 'modification';
         $record->save();
 
-        $results = (new $this->record())->updatedBy(User::first())->get();
+        $results = (new $this->record())->onlyUpdatedBy(User::first())->get();
 
         $this->assertCount(1, $results);
         $this->assertEquals($record->id, $results->first()->id);

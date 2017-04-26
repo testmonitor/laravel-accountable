@@ -121,7 +121,7 @@ $project = new Project(['name' => 'Awesome project']);
 $project->save();
 
 // Show the name of user that created the project
-echo $project->createdByUser->name; 
+echo $project->createdBy->name; 
 ```
 
 Get all projects created by a specific user:
@@ -130,7 +130,7 @@ Get all projects created by a specific user:
 $user = User::findOrFail(42);
 
 // Get all projects created by user with id 42
-Project::createdBy($user)->get();
+Project::onlyCreatedBy($user)->get();
 ```
 
 You can use the following properties and methods to reveal the user responsible:
@@ -138,15 +138,15 @@ You can use the following properties and methods to reveal the user responsible:
 ```php
 // Get the user that created the model
 $model->created_by_user_id;
-$model->createdByUser->name;
+$model->createdBy->name;
 
 // Get the user that last updated the model
 $model->updated_by_user_id;
-$model->updatedByUser->name;
+$model->updatedBy->name;
 
 // Get the user that last deleted the model
 $model->deleted_by_user_id;
-$model->deletedByUser->name;
+$model->deletedBy->name;
 ```
 
 The following scope queries are at your disposal:
@@ -154,9 +154,9 @@ The following scope queries are at your disposal:
 ```php
 // Retrieve the models either created, updated, 
 // or deleted by $user.
-Model::createdBy($user)->get();
-Model::updatedBy($user)->get();
-Model::deletedBy($user)->get();
+Model::onlyCreatedBy($user)->get();
+Model::onlyUpdatedBy($user)->get();
+Model::onlyDeletedBy($user)->get();
 
 // And one extra: get all models that were created 
 // by the currently authenticated user.

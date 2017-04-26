@@ -36,8 +36,8 @@ class SaveDeletedByUserTest extends TestCase
         $record->delete();
 
         $this->assertEquals($record->deleted_by_user_id, User::first()->id);
-        $this->assertEquals($record->deletedByUser->name, User::first()->name);
-        $this->assertInstanceOf(get_class(User::first()), $record->deletedByUser);
+        $this->assertEquals($record->deletedBy->name, User::first()->name);
+        $this->assertInstanceOf(get_class(User::first()), $record->deletedBy);
     }
 
     /** @test */
@@ -49,7 +49,7 @@ class SaveDeletedByUserTest extends TestCase
         $record->delete();
 
         $this->assertNull($record->deleted_by_user_id);
-        $this->assertNull($record->deletedByUser);
+        $this->assertNull($record->deletedBy);
     }
 
     /** @test */
@@ -69,7 +69,7 @@ class SaveDeletedByUserTest extends TestCase
         $record->save();
         $record->delete();
 
-        $results = (new $this->record())->deletedBy(User::first())->withTrashed()->get();
+        $results = (new $this->record())->onlyDeletedBy(User::first())->withTrashed()->get();
 
         $this->assertCount(1, $results);
         $this->assertEquals($record->id, $results->first()->id);
