@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/bytestgear/laravel-accountable/v/stable)](https://packagist.org/packages/bytestgear/laravel-accountable)
 [![Travis Build](https://travis-ci.org/byTestGear/laravel-accountable.svg?branch=master)](https://travis-ci.org/byTestGear/laravel-accountable)
 [![Code Quality](https://scrutinizer-ci.com/g/byTestGear/laravel-accountable/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/byTestGear/laravel-accountable/?branch=master)
-[![StyleCI](https://styleci.io/repos/7548986/shield)](https://styleci.io/repos/89096388)
+[![StyleCI](https://styleci.io/repos/89096388/shield)](https://styleci.io/repos/89096388)
 [![License](https://poser.pugx.org/bytestgear/laravel-accountable/license)](https://packagist.org/packages/laravel-accountable)
 
 This package provides a trait that tracks the user responsible for creating, modifying, or 
