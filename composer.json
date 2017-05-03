@@ -1,6 +1,6 @@
 {
     "name": "bytestgear/laravel-accountable",
-    "description": "Saves the user responsible for creating, modifying, or deleting an Eloquent model",
+    "description": "Tracks the user responsible for creating, modifying, or deleting an Eloquent model",
     "type": "library",
     "keywords":
     [
@@ -9,6 +9,7 @@
         "modified",
         "deleted",
         "user",
+        "eloquent",
         "laravel"
     ],
     "authors": [
@@ -33,7 +34,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php" : "^7.0",
+        "php": "^7.0",
         "illuminate/support": "~5.2",
         "illuminate/database": "~5.2",
         "illuminate/config": "~5.2",

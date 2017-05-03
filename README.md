@@ -6,7 +6,7 @@
 [![StyleCI](https://styleci.io/repos/7548986/shield)](https://styleci.io/repos/89096388)
 [![License](https://poser.pugx.org/bytestgear/laravel-accountable/license)](https://packagist.org/packages/laravel-accountable)
 
-This package provides a trait that saves the user responsible for creating, modifying, or 
+This package provides a trait that tracks the user responsible for creating, modifying, or 
 deleting an Eloquent model. 
 
 Accountable will observe any activity on your models and it sets the **created_by_user_id**, **updated_by_user_id**, and **deleted_by_user_id** 
@@ -112,7 +112,7 @@ class Project extends Model
 
 ## Examples
 
-Setup your model and make sure an authenticated user is present.
+Setup your model and make sure you are authenticated.
 
 Create a project and show the name of the user that created it:
 
