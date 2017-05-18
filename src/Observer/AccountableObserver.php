@@ -34,37 +34,27 @@ class AccountableObserver
      * Store the user creating a record.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     *
-     * @return \Illuminate\Database\Eloquent\Model
      */
     public function creating($model)
     {
         $model->{$this->config['column_names']['created_by']} = $this->accountableUserId();
         $model->{$this->config['column_names']['updated_by']} = $this->accountableUserId();
-
-        return $model;
     }
 
     /**
      * Store the user updating a record.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     *
-     * @return \Illuminate\Database\Eloquent\Model
      */
     public function updating($model)
     {
         $model->{$this->config['column_names']['updated_by']} = $this->accountableUserId();
-
-        return $model;
     }
 
     /**
      * Store the user deleting a record.
      *
      * @param \Illuminate\Database\Eloquent\Model $model
-     *
-     * @return \Illuminate\Database\Eloquent\Model
      */
     public function deleting($model)
     {
@@ -73,7 +63,5 @@ class AccountableObserver
 
             $model->save();
         }
-
-        return $model;
     }
 }
