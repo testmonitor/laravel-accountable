@@ -1,0 +1,25 @@
+machine:
+  php:
+    version: 7.0.17
+  timezone:
+    Europe/Amsterdam
+
+general:
+  artifacts:
+    - "build/logs/clover.xml"
+
+dependencies:
+  override:
+    - composer install --prefer-dist --no-interaction
+  cache_directories:
+    - "~/.composer/cache"
+    - "vendor"
+
+test:
+  pre:
+   - mkdir -p build/logs
+  override:
+   - mkdir -p $CIRCLE_TEST_REPORTS/phpcs
+   - vendor/bin/phpcs --standard=psr2 -v --report=junit --report-file=$CIRCLE_TEST_REPORTS/phpcs/junit.xml src/
+   - mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+   - vendor/bin/phpunit -d memory_limit=512M --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml --log-json $CIRCLE_ARTIFACTS/logs/junit.json --coverage-clover build/logs/clover.xml
