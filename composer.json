@@ -56,6 +56,13 @@
             "ByTestGear\\Accountable\\Test\\": "tests"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ByTestGear\\Accountable\\AccountableServiceProvider"
+            ]
+        }
+    },
 
     "scripts": {
         "test": "vendor/bin/phpunit"
