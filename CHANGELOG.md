@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.0] - 2017-09-23
+### Added
+- Support for auto-loading service provider in Laravel 5.5  
+
 ## [1.0.3] - 2017-05-18
 ### Fixed
 - Accountable observer blocks other Laravel model listeners/observers 
