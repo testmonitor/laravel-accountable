@@ -37,8 +37,10 @@ This package can be installed through Composer:
 $ composer require bytestgear/laravel-accountable
 ```
 
-After installing the package, open your Laravel config file `config/app.php` and add the 
-Accountable service provider:
+The package will automatically register itself. 
+
+Older Laravel versions (5.4, 5.3, 5.2) require you to add the Accountable service provider in your 
+Laravel config file `config/app.php` manually:
 
 ```php
 ByTestGear\Accountable\AccountableServiceProvider::class
