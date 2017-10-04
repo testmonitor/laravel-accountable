@@ -30,6 +30,10 @@ abstract class TestCase extends OrchestraTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set('auth.providers.users', [
+            'driver' => 'eloquent',
+            'model' => 'ByTestGear\Accountable\Test\Models\User',
+        ]);
     }
 
     protected function setUpDatabase($withSoftDeletes = false)
