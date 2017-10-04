@@ -27,12 +27,35 @@ class AccountableServiceProvider extends \Illuminate\Support\ServiceProvider
     /**
      * Returns the current used, based on the configured authentication driver.
      *
+     * @return string
+     */
+    public static function authDriver()
+    {
+        return config('accountable.auth_driver') ?? auth()->getDefaultDriver();
+    }
+
+    /**
+     * Returns the current used, based on the configured authentication driver.
+     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public static function accountableUser()
     {
-        $authDriver = config('accountable.auth_driver') ?? auth()->getDefaultDriver();
+        return auth()->guard(self::authDriver())->user();
+    }
 
-        return auth($authDriver)->user();
+    /**
+     * Returns the user model, based on the configured authentication driver.
+     *
+     * @return string
+     */
+    public static function userModel()
+    {
+        $guard = self::authDriver();
+
+        return collect(config('auth.guards'))
+            ->map(function ($guard) {
+                return config("auth.providers.{$guard['provider']}.model");
+            })->get($guard);
     }
 }

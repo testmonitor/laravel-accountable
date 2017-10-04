@@ -20,21 +20,13 @@ trait Accountable
     }
 
     /**
-     * @return string
-     */
-    protected function accountableUserClass()
-    {
-        return get_class(AccountableServiceProvider::accountableUser());
-    }
-
-    /**
      * Define the created by relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function createdBy()
     {
-        return $this->belongsTo($this->accountableUserClass(), config('accountable.column_names.created_by'));
+        return $this->belongsTo(AccountableServiceProvider::userModel(), config('accountable.column_names.created_by'));
     }
 
     /**
@@ -44,7 +36,7 @@ trait Accountable
      */
     public function updatedBy()
     {
-        return $this->belongsTo($this->accountableUserClass(), config('accountable.column_names.updated_by'));
+        return $this->belongsTo(AccountableServiceProvider::userModel(), config('accountable.column_names.updated_by'));
     }
 
     /**
@@ -54,7 +46,7 @@ trait Accountable
      */
     public function deletedBy()
     {
-        return $this->belongsTo($this->accountableUserClass(), config('accountable.column_names.deleted_by'));
+        return $this->belongsTo(AccountableServiceProvider::userModel(), config('accountable.column_names.deleted_by'));
     }
 
     /**
