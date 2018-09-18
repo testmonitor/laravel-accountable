@@ -2,11 +2,11 @@
 
 namespace ByTestGear\Accountable\Test;
 
-use ByTestGear\Accountable\Test\Models\SoftDeletableUser;
 use ByTestGear\Accountable\Test\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use ByTestGear\Accountable\Test\Models\Record;
 use ByTestGear\Accountable\Traits\Accountable;
+use ByTestGear\Accountable\Test\Models\SoftDeletableUser;
 
 class SaveDeletedByUserTest extends TestCase
 {
