@@ -29,7 +29,7 @@ trait Accountable
     {
         return in_array(SoftDeletes::class, class_uses_recursive(AccountableServiceProvider::userModel()));
     }
-    
+
     /**
      * Define the created by relationship.
      *
