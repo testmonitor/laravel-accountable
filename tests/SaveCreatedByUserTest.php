@@ -2,6 +2,7 @@
 
 namespace ByTestGear\Accountable\Test;
 
+use ByTestGear\Accountable\Test\Models\SoftDeletableUser;
 use ByTestGear\Accountable\Test\Models\User;
 use ByTestGear\Accountable\Test\Models\Record;
 use ByTestGear\Accountable\Traits\Accountable;
@@ -70,6 +71,25 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertCount(1, $results);
         $this->assertEquals($record->id, $results->first()->id);
+    }
+
+    /** @test */
+    public function it_will_retrieve_the_soft_deleted_user_that_created_a_record()
+    {
+        collect(range(1, 5))->each(function () {
+            (new $this->record())->save();
+        });
+
+        $user = SoftDeletableUser::first();
+        $this->actingAs($user);
+
+        $record = new $this->record();
+        $record->save();
+
+        $user->delete();
+
+        $this->assertTrue($user->trashed());
+        $this->assertEquals($record->createdBy->name, $user->name);
     }
 
     /** @test */
