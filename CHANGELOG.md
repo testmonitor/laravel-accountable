@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support for trashed user model
 
 ### Changed
-- Requires Laravel 5.5
+- Requires Laravel 5.5 or up
 
 ## [1.1.1] - 2017-10-04
 ### Fixed
