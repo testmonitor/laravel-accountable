@@ -54,6 +54,8 @@ abstract class TestCase extends OrchestraTestCase
         $builder->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+
+            $table->softDeletes();
         });
 
         $this->seedUsers();

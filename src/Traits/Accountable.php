@@ -4,6 +4,7 @@ namespace ByTestGear\Accountable\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use ByTestGear\Accountable\AccountableServiceProvider;
 use ByTestGear\Accountable\Observer\AccountableObserver;
 
@@ -20,13 +21,28 @@ trait Accountable
     }
 
     /**
+     * Determines if the user model is soft deletable.
+     *
+     * @return bool
+     */
+    protected function userModelUsesSoftDeletes()
+    {
+        return in_array(SoftDeletes::class, class_uses_recursive(AccountableServiceProvider::userModel()));
+    }
+
+    /**
      * Define the created by relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function createdBy()
     {
-        return $this->belongsTo(AccountableServiceProvider::userModel(), config('accountable.column_names.created_by'));
+        $relation = $this->belongsTo(
+            AccountableServiceProvider::userModel(),
+            config('accountable.column_names.created_by')
+        );
+
+        return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
     }
 
     /**
@@ -36,7 +52,12 @@ trait Accountable
      */
     public function updatedBy()
     {
-        return $this->belongsTo(AccountableServiceProvider::userModel(), config('accountable.column_names.updated_by'));
+        $relation = $this->belongsTo(
+            AccountableServiceProvider::userModel(),
+            config('accountable.column_names.updated_by')
+        );
+
+        return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
     }
 
     /**
@@ -46,7 +67,12 @@ trait Accountable
      */
     public function deletedBy()
     {
-        return $this->belongsTo(AccountableServiceProvider::userModel(), config('accountable.column_names.deleted_by'));
+        $relation = $this->belongsTo(
+            AccountableServiceProvider::userModel(),
+            config('accountable.column_names.deleted_by')
+        );
+
+        return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
     }
 
     /**
