@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] - 2019-05-03
+### Added
+- Support for disabling accountable
+
+### Changed
+- Added PHP 7.2, 7.3 to Travis
+- Updated CircleCI to 2.0
+
 ## [2.0.0] - 2018-09-19
 ### Added
 - Support for trashed user model
