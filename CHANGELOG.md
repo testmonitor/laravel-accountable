@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support for disabling accountable
 
 ### Changed
-- Added PHP 7.2, 7.3 to Travis
 - Updated CircleCI to 2.0
 
 ## [2.0.0] - 2018-09-19
