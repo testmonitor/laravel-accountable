@@ -54,6 +54,21 @@ class SaveDeletedByUserTest extends TestCase
     }
 
     /** @test */
+    public function it_will_save_a_specified_user_as_deleter_when_disabling_accountable()
+    {
+        $this->actingAs(User::all()->first());
+
+        $record = new $this->record();
+        $record->save();
+
+        $record->deleted_by_user_id = User::all()->last()->id;
+        $record->disableAccountable()->delete();
+
+        $this->assertNotEquals($record->deleted_by_user_id, User::all()->first()->id);
+        $this->assertEquals($record->deleted_by_user_id, User::all()->last()->id);
+    }
+
+    /** @test */
     public function it_will_retrieve_the_deleted_records_for_a_specific_user()
     {
         $this->actingAs(User::all()->last());

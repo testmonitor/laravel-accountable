@@ -13,6 +13,11 @@ class AccountableObserver
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $columnNames;
+
+    /**
      * AccountableObserver constructor.
      */
     public function __construct()
@@ -37,8 +42,10 @@ class AccountableObserver
      */
     public function creating($model)
     {
-        $model->{$this->config['column_names']['created_by']} = $this->accountableUserId();
-        $model->{$this->config['column_names']['updated_by']} = $this->accountableUserId();
+        if ($model->accountableEnabled()) {
+            $model->{$this->config['column_names']['created_by']} = $this->accountableUserId();
+            $model->{$this->config['column_names']['updated_by']} = $this->accountableUserId();
+        }
     }
 
     /**
@@ -48,7 +55,9 @@ class AccountableObserver
      */
     public function updating($model)
     {
-        $model->{$this->config['column_names']['updated_by']} = $this->accountableUserId();
+        if ($model->accountableEnabled()) {
+            $model->{$this->config['column_names']['updated_by']} = $this->accountableUserId();
+        }
     }
 
     /**
@@ -58,7 +67,8 @@ class AccountableObserver
      */
     public function deleting($model)
     {
-        if (collect(class_uses($model))->contains(SoftDeletes::class)) {
+        if ($model->accountableEnabled() &&
+            collect(class_uses($model))->contains(SoftDeletes::class)) {
             $model->{$this->config['column_names']['deleted_by']} = $this->accountableUserId();
 
             $model->save();

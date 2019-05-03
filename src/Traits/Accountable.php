@@ -11,6 +11,13 @@ use ByTestGear\Accountable\Observer\AccountableObserver;
 trait Accountable
 {
     /**
+     * Determines if accountable should log the user.
+     *
+     * @var bool
+     */
+    protected $enableAccountable = true;
+
+    /**
      * Boot the accountable trait for a model.
      *
      * @return void
@@ -18,6 +25,40 @@ trait Accountable
     public static function bootAccountable()
     {
         static::observe(new AccountableObserver);
+    }
+
+    /**
+     * Determines if accountable should log the user.
+     *
+     * @return bool
+     */
+    public function accountableEnabled()
+    {
+        return $this->enableAccountable;
+    }
+
+    /**
+     * (Re-)enable user logging.
+     *
+     * @return $this
+     */
+    public function enableAccountable()
+    {
+        $this->enableAccountable = true;
+
+        return $this;
+    }
+
+    /**
+     * Disable user logging.
+     *
+     * @return $this
+     */
+    public function disableAccountable()
+    {
+        $this->enableAccountable = false;
+
+        return $this;
     }
 
     /**
