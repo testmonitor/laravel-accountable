@@ -13,11 +13,6 @@ class AccountableObserver
     protected $config;
 
     /**
-     * @var array
-     */
-    protected $columnNames;
-
-    /**
      * AccountableObserver constructor.
      */
     public function __construct()
