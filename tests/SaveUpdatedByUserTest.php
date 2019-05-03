@@ -76,8 +76,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->assertNotEquals($record->updated_by_user_id, $anotherUser->id);
         $this->assertEquals($record->updated_by_user_id, $user->id);
     }
-
-
+    
     /** @test */
     public function it_will_retrieve_the_updated_records_for_a_specific_user()
     {
