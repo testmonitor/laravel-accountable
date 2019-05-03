@@ -1,0 +1,46 @@
+version: 2
+
+jobs:
+  build:
+    working_directory: ~/byTestGear/laravel-accountable
+
+    docker:
+      - image: circleci/php:7.2-browsers
+
+    steps:
+      - run:
+          name: Update Composer
+          command: sudo composer self-update
+
+      - checkout
+
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run:
+          name: Install Composer Dependencies
+          command: composer install -n --ignore-platform-reqs
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+
+      - run:
+          name: PHPCS
+          command: |
+            mkdir -p ./logs/phpcs
+            vendor/bin/phpcs --standard="PSR1,PSR2" -v --report=junit --report-file=logs/phpcs/junit.xml src/
+      - run:
+          name: Run Unit Tests
+          command: |
+            mkdir -p ./logs/phpunit
+            vendor/bin/phpunit -d memory_limit=128M --log-junit logs/phpunit/junit.xml --testdox-html logs/phpunit/testdox.html
+
+      - store_artifacts:
+          path: ./logs/phpcs
+          destination: phpcs
+
+      - store_artifacts:
+          path: ./logs/phpunit
+          destination: phpunit
