@@ -57,6 +57,27 @@ class SaveUpdatedByUserTest extends TestCase
     }
 
     /** @test */
+    public function it_will_save_a_specified_user_as_updater_when_disabling_accountable()
+    {
+        $user = User::first();
+        $anotherUser = User::all()->last();
+
+        $this->actingAs($user);
+
+        $record = new $this->record();
+        $record->save();
+
+        $this->actingAs($anotherUser);
+
+        $record->name = 'modification';
+        $record->updated_by_user_id = $user->id;
+        $record->disableUserLogging()->save();
+
+        $this->assertNotEquals($record->updated_by_user_id, $anotherUser->id);
+        $this->assertEquals($record->updated_by_user_id, $user->id);
+    }
+
+    /** @test */
     public function it_will_retrieve_the_updated_records_for_a_specific_user()
     {
         $this->actingAs(User::all()->last());

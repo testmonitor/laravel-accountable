@@ -55,6 +55,23 @@ class SaveCreatedByUserTest extends TestCase
     }
 
     /** @test */
+    public function it_will_save_a_specified_user_as_creator_when_disabling_accountable()
+    {
+        $user = User::first();
+        $anotherUser = User::all()->last();
+
+        $this->actingAs($user);
+
+        $record = new $this->record();
+
+        $record->created_by_user_id = $anotherUser->id;
+        $record->disableUserLogging()->save();
+
+        $this->assertNotEquals($record->created_by_user_id, $user->id);
+        $this->assertEquals($record->created_by_user_id, $anotherUser->id);
+    }
+
+    /** @test */
     public function it_will_retrieve_the_created_records_from_a_specific_user()
     {
         collect(range(1, 5))->each(function () {
