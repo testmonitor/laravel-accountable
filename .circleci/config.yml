@@ -4,9 +4,6 @@ jobs:
   build:
     working_directory: ~/byTestGear/laravel-accountable
 
-    environment:
-      BASH_ENV: ~/.bashrc
-
     docker:
       - image: circleci/php:7.2-browsers
 
