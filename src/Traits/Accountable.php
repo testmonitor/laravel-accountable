@@ -15,7 +15,7 @@ trait Accountable
      *
      * @var bool
      */
-    protected $enableAccountable = true;
+    protected $enableUserLogging = true;
 
     /**
      * Boot the accountable trait for a model.
@@ -34,7 +34,7 @@ trait Accountable
      */
     public function accountableEnabled()
     {
-        return $this->enableAccountable;
+        return $this->enableUserLogging;
     }
 
     /**
@@ -42,9 +42,9 @@ trait Accountable
      *
      * @return $this
      */
-    public function enableAccountable()
+    public function enableUserLogging()
     {
-        $this->enableAccountable = true;
+        $this->enableUserLogging = true;
 
         return $this;
     }
@@ -54,9 +54,9 @@ trait Accountable
      *
      * @return $this
      */
-    public function disableAccountable()
+    public function disableUserLogging()
     {
-        $this->enableAccountable = false;
+        $this->enableUserLogging = false;
 
         return $this;
     }

@@ -71,7 +71,7 @@ class SaveUpdatedByUserTest extends TestCase
 
         $record->name = 'modification';
         $record->updated_by_user_id = $user->id;
-        $record->disableAccountable()->save();
+        $record->disableUserLogging()->save();
 
         $this->assertNotEquals($record->updated_by_user_id, $anotherUser->id);
         $this->assertEquals($record->updated_by_user_id, $user->id);

@@ -166,6 +166,18 @@ Model::onlyDeletedBy($user)->get();
 Model::mine()->get(); 
 ```
 
+In some cases, you don't want to automatically save the user along 
+with the model (for example: when seeding test data). You can disable
+accountable by using the `disableUserLogging` method.
+
+```php
+$project = new Project(['name' => 'Do not track me']);
+$project->disableUserLogging()->save();
+```
+
+If you want to re-enable accountable, simply use the `enableUserLogging`
+method afterwards.
+
 ## Tests
 
 The package contains integration tests. You can run them using PHPUnit.

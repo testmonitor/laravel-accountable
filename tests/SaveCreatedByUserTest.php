@@ -65,7 +65,7 @@ class SaveCreatedByUserTest extends TestCase
         $record = new $this->record();
 
         $record->created_by_user_id = $anotherUser->id;
-        $record->disableAccountable()->save();
+        $record->disableUserLogging()->save();
 
         $this->assertNotEquals($record->created_by_user_id, $user->id);
         $this->assertEquals($record->created_by_user_id, $anotherUser->id);

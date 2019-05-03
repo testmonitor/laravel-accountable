@@ -62,7 +62,7 @@ class SaveDeletedByUserTest extends TestCase
         $record->save();
 
         $record->deleted_by_user_id = User::all()->last()->id;
-        $record->disableAccountable()->delete();
+        $record->disableUserLogging()->delete();
 
         $this->assertNotEquals($record->deleted_by_user_id, User::all()->first()->id);
         $this->assertEquals($record->deleted_by_user_id, User::all()->last()->id);
