@@ -1,9 +1,9 @@
 # Accountable Eloquent models
 
 [![Latest Stable Version](https://poser.pugx.org/testmonitor/laravel-accountable/v/stable)](https://packagist.org/packages/testmonitor/laravel-accountable)
-[![CircleCI](https://img.shields.io/circleci/project/github/byTestGear/laravel-accountable.svg)](https://circleci.com/gh/byTestGear/laravel-accountable)
-[![Travis Build](https://travis-ci.org/byTestGear/laravel-accountable.svg?branch=master)](https://travis-ci.org/byTestGear/laravel-accountable)
-[![Code Quality](https://scrutinizer-ci.com/g/byTestGear/laravel-accountable/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/byTestGear/laravel-accountable/?branch=master)
+[![CircleCI](https://img.shields.io/circleci/project/github/testmonitor/laravel-accountable.svg)](https://circleci.com/gh/testmonitor/laravel-accountable)
+[![Travis Build](https://travis-ci.org/testmonitor/laravel-accountable.svg?branch=master)](https://travis-ci.org/testmonitor/laravel-accountable)
+[![Code Quality](https://scrutinizer-ci.com/g/testmonitor/laravel-accountable/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/testmonitor/laravel-accountable/?branch=master)
 [![StyleCI](https://styleci.io/repos/89096388/shield)](https://styleci.io/repos/89096388)
 [![License](https://poser.pugx.org/testmonitor/laravel-accountable/license)](https://packagist.org/packages/laravel-accountable)
 

@@ -2,7 +2,7 @@ version: 2
 
 jobs:
   build:
-    working_directory: ~/byTestGear/laravel-accountable
+    working_directory: ~/testmonitor/laravel-accountable
 
     docker:
       - image: circleci/php:7.2-browsers
