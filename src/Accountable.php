@@ -1,6 +1,6 @@
 <?php
 
-namespace ByTestGear\Accountable;
+namespace TestMonitor\Accountable;
 
 use Illuminate\Database\Schema\Blueprint;
 

@@ -1,10 +1,10 @@
 {
-    "name": "bytestgear/laravel-accountable",
+    "name": "testmonitor/laravel-accountable",
     "description": "Tracks the user responsible for creating, modifying, or deleting an Eloquent model",
     "type": "library",
     "keywords":
     [
-        "testgear",
+        "testmonitor",
         "created",
         "modified",
         "deleted",
@@ -48,18 +48,18 @@
     },
     "autoload": {
         "psr-4": {
-            "ByTestGear\\Accountable\\": "src"
+            "TestMonitor\\Accountable\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ByTestGear\\Accountable\\Test\\": "tests"
+            "TestMonitor\\Accountable\\Test\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "ByTestGear\\Accountable\\AccountableServiceProvider"
+                "TestMonitor\\Accountable\\AccountableServiceProvider"
             ]
         }
     },

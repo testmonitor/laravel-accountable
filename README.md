@@ -1,11 +1,11 @@
 # Accountable Eloquent models
 
-[![Latest Stable Version](https://poser.pugx.org/bytestgear/laravel-accountable/v/stable)](https://packagist.org/packages/bytestgear/laravel-accountable)
+[![Latest Stable Version](https://poser.pugx.org/testmonitor/laravel-accountable/v/stable)](https://packagist.org/packages/testmonitor/laravel-accountable)
 [![CircleCI](https://img.shields.io/circleci/project/github/byTestGear/laravel-accountable.svg)](https://circleci.com/gh/byTestGear/laravel-accountable)
 [![Travis Build](https://travis-ci.org/byTestGear/laravel-accountable.svg?branch=master)](https://travis-ci.org/byTestGear/laravel-accountable)
 [![Code Quality](https://scrutinizer-ci.com/g/byTestGear/laravel-accountable/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/byTestGear/laravel-accountable/?branch=master)
 [![StyleCI](https://styleci.io/repos/89096388/shield)](https://styleci.io/repos/89096388)
-[![License](https://poser.pugx.org/bytestgear/laravel-accountable/license)](https://packagist.org/packages/laravel-accountable)
+[![License](https://poser.pugx.org/testmonitor/laravel-accountable/license)](https://packagist.org/packages/laravel-accountable)
 
 This package provides a trait that tracks the user responsible for creating, modifying, or 
 deleting an Eloquent model. 
@@ -34,7 +34,7 @@ by a specific user.
 This package can be installed through Composer:
 
 ```sh
-$ composer require bytestgear/laravel-accountable
+$ composer require testmonitor/laravel-accountable
 ```
 
 The package will automatically register itself. 
@@ -43,13 +43,13 @@ Older Laravel versions (5.4, 5.3, 5.2) require you to add the Accountable servic
 Laravel config file `config/app.php` manually:
 
 ```php
-ByTestGear\Accountable\AccountableServiceProvider::class
+TestMonitor\Accountable\AccountableServiceProvider::class
 ```
 
 Optionally, publish the configuration file:
 
 ```sh
-$ php artisan vendor:publish --provider="ByTestGear\Accountable\AccountableServiceProvider" --tag="config"
+$ php artisan vendor:publish --provider="TestMonitor\Accountable\AccountableServiceProvider" --tag="config"
 ```
 
 The configuration file allows you to set the preferred authentication driver and the database
@@ -63,7 +63,7 @@ the default column names (*created_by_user_id*, *updated_by_user_id*, and *delet
 In order to add Accountable to your Laravel application, you'll need to:<br />
 
 1. Add the required columns to your migration file(s).
-2. Use the trait ```ByTestGear\Accountable\Traits\Accountable``` on your model(s).
+2. Use the trait ```TestMonitor\Accountable\Traits\Accountable``` on your model(s).
 
 *Please note that due to the nature of Laravel event system, mass updates 
 will not be handled by Accountable.*
@@ -73,7 +73,7 @@ will not be handled by Accountable.*
 The migration helper simplifies the process of adding columns to your migration:
 
 ```php
-use ByTestGear\Accountable\Accountable;
+use TestMonitor\Accountable\Accountable;
 
 class CreateProjectsTable extends Migration
 {
@@ -103,7 +103,7 @@ Add the Accountable trait on the models you want to track:
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use ByTestGear\Accountable\Traits\Accountable;
+use TestMonitor\Accountable\Traits\Accountable;
 
 class Project extends Model
 {

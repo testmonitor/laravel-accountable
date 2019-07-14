@@ -1,6 +1,6 @@
 <?php
 
-namespace ByTestGear\Accountable\Test\Models;
+namespace TestMonitor\Accountable\Test\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 

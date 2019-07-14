@@ -1,12 +1,12 @@
 <?php
 
-namespace ByTestGear\Accountable\Traits;
+namespace TestMonitor\Accountable\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use ByTestGear\Accountable\AccountableServiceProvider;
-use ByTestGear\Accountable\Observer\AccountableObserver;
+use TestMonitor\Accountable\AccountableServiceProvider;
+use TestMonitor\Accountable\Observer\AccountableObserver;
 
 trait Accountable
 {

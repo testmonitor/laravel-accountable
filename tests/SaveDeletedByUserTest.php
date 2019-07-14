@@ -1,17 +1,17 @@
 <?php
 
-namespace ByTestGear\Accountable\Test;
+namespace TestMonitor\Accountable\Test;
 
-use ByTestGear\Accountable\Test\Models\User;
+use TestMonitor\Accountable\Test\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use ByTestGear\Accountable\Test\Models\Record;
-use ByTestGear\Accountable\Traits\Accountable;
-use ByTestGear\Accountable\Test\Models\SoftDeletableUser;
+use TestMonitor\Accountable\Test\Models\Record;
+use TestMonitor\Accountable\Traits\Accountable;
+use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 
 class SaveDeletedByUserTest extends TestCase
 {
     /**
-     * @var \ByTestGear\Accountable\Test\Models\Record
+     * @var \TestMonitor\Accountable\Test\Models\Record
      */
     protected $record;
 

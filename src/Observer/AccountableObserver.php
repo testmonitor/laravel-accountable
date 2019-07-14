@@ -1,9 +1,9 @@
 <?php
 
-namespace ByTestGear\Accountable\Observer;
+namespace TestMonitor\Accountable\Observer;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use ByTestGear\Accountable\AccountableServiceProvider;
+use TestMonitor\Accountable\AccountableServiceProvider;
 
 class AccountableObserver
 {

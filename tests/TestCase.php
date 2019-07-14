@@ -1,11 +1,11 @@
 <?php
 
-namespace ByTestGear\Accountable\Test;
+namespace TestMonitor\Accountable\Test;
 
-use ByTestGear\Accountable\Accountable;
+use TestMonitor\Accountable\Accountable;
 use Illuminate\Database\Schema\Blueprint;
-use ByTestGear\Accountable\Test\Models\User;
-use ByTestGear\Accountable\AccountableServiceProvider;
+use TestMonitor\Accountable\Test\Models\User;
+use TestMonitor\Accountable\AccountableServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase
@@ -32,7 +32,7 @@ abstract class TestCase extends OrchestraTestCase
         ]);
         $app['config']->set('auth.providers.users', [
             'driver' => 'eloquent',
-            'model' => 'ByTestGear\Accountable\Test\Models\User',
+            'model' => 'TestMonitor\Accountable\Test\Models\User',
         ]);
     }
 
