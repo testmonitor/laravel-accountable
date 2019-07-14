@@ -2,8 +2,8 @@
 
 namespace TestMonitor\Accountable\Test;
 
-use TestMonitor\Accountable\Test\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
 use TestMonitor\Accountable\Traits\Accountable;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;

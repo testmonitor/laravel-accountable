@@ -5,8 +5,8 @@ namespace TestMonitor\Accountable\Test;
 use TestMonitor\Accountable\Accountable;
 use Illuminate\Database\Schema\Blueprint;
 use TestMonitor\Accountable\Test\Models\User;
-use TestMonitor\Accountable\AccountableServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use TestMonitor\Accountable\AccountableServiceProvider;
 
 abstract class TestCase extends OrchestraTestCase
 {
