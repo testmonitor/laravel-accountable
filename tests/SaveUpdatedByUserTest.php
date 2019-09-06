@@ -14,7 +14,7 @@ class SaveUpdatedByUserTest extends TestCase
      */
     protected $record;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
