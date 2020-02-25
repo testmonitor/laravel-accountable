@@ -41,6 +41,7 @@
         "illuminate/contracts": "~6.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.11",
         "phpunit/phpunit": "~8.2",
         "squizlabs/php_codesniffer": "2.9.2",
         "orchestra/testbench": "~4.0",
@@ -49,7 +50,10 @@
     "autoload": {
         "psr-4": {
             "TestMonitor\\Accountable\\": "src"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

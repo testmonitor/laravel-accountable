@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
 use TestMonitor\Accountable\Traits\Accountable;
+use TestMonitor\Accountable\AccountableSettings;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 
 class SaveDeletedByUserTest extends TestCase
@@ -14,6 +15,11 @@ class SaveDeletedByUserTest extends TestCase
      * @var \TestMonitor\Accountable\Test\Models\Record
      */
     protected $record;
+
+    /**
+     * @var AccountableSettings
+     */
+    protected $config;
 
     public function setUp(): void
     {
@@ -24,6 +30,8 @@ class SaveDeletedByUserTest extends TestCase
         $this->record = new class() extends Record {
             use Accountable, SoftDeletes;
         };
+
+        $this->config = app()->make(AccountableSettings::class);
     }
 
     /** @test */
@@ -56,13 +64,14 @@ class SaveDeletedByUserTest extends TestCase
     /** @test */
     public function it_will_save_a_specified_user_as_deleter_when_disabling_accountable()
     {
+        $this->config->disable();
+
         $this->actingAs(User::all()->first());
 
         $record = new $this->record();
         $record->save();
 
         $record->deleted_by_user_id = User::all()->last()->id;
-        $record->disableUserLogging()->delete();
 
         $this->assertNotEquals($record->deleted_by_user_id, User::all()->first()->id);
         $this->assertEquals($record->deleted_by_user_id, User::all()->last()->id);

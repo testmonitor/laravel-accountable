@@ -3,12 +3,13 @@
 namespace TestMonitor\Accountable\Observer;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use TestMonitor\Accountable\AccountableSettings;
 use TestMonitor\Accountable\AccountableServiceProvider;
 
 class AccountableObserver
 {
     /**
-     * @var \Illuminate\Config\Repository
+     * @var AccountableSettings
      */
     protected $config;
 
@@ -17,7 +18,7 @@ class AccountableObserver
      */
     public function __construct()
     {
-        $this->config = config('accountable');
+        $this->config = app()->make(AccountableSettings::class);
     }
 
     /**
@@ -37,9 +38,9 @@ class AccountableObserver
      */
     public function creating($model)
     {
-        if ($model->accountableEnabled()) {
-            $model->{$this->config['column_names']['created_by']} = $this->accountableUserId();
-            $model->{$this->config['column_names']['updated_by']} = $this->accountableUserId();
+        if ($this->config->enabled()) {
+            $model->{$this->config->createdByColumn()} = $this->accountableUserId();
+            $model->{$this->config->updatedByColumn()} = $this->accountableUserId();
         }
     }
 
@@ -50,8 +51,8 @@ class AccountableObserver
      */
     public function updating($model)
     {
-        if ($model->accountableEnabled()) {
-            $model->{$this->config['column_names']['updated_by']} = $this->accountableUserId();
+        if ($this->config->enabled()) {
+            $model->{$this->config->updatedByColumn()} = $this->accountableUserId();
         }
     }
 
@@ -62,9 +63,9 @@ class AccountableObserver
      */
     public function deleting($model)
     {
-        if ($model->accountableEnabled() &&
+        if ($this->config->enabled() &&
             collect(class_uses($model))->contains(SoftDeletes::class)) {
-            $model->{$this->config['column_names']['deleted_by']} = $this->accountableUserId();
+            $model->{$this->config->deletedByColumn()} = $this->accountableUserId();
 
             $model->save();
         }

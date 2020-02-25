@@ -11,13 +11,6 @@ use TestMonitor\Accountable\Observer\AccountableObserver;
 trait Accountable
 {
     /**
-     * Determines if accountable should log the user.
-     *
-     * @var bool
-     */
-    protected $enableUserLogging = true;
-
-    /**
      * Boot the accountable trait for a model.
      *
      * @return void
@@ -25,40 +18,6 @@ trait Accountable
     public static function bootAccountable()
     {
         static::observe(new AccountableObserver);
-    }
-
-    /**
-     * Determines if accountable should log the user.
-     *
-     * @return bool
-     */
-    public function accountableEnabled()
-    {
-        return $this->enableUserLogging;
-    }
-
-    /**
-     * (Re-)enable user logging.
-     *
-     * @return $this
-     */
-    public function enableUserLogging()
-    {
-        $this->enableUserLogging = true;
-
-        return $this;
-    }
-
-    /**
-     * Disable user logging.
-     *
-     * @return $this
-     */
-    public function disableUserLogging()
-    {
-        $this->enableUserLogging = false;
-
-        return $this;
     }
 
     /**
@@ -80,7 +39,7 @@ trait Accountable
     {
         $relation = $this->belongsTo(
             AccountableServiceProvider::userModel(),
-            config('accountable.column_names.created_by')
+            accountable()->createdByColumn()
         );
 
         return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
@@ -95,7 +54,7 @@ trait Accountable
     {
         $relation = $this->belongsTo(
             AccountableServiceProvider::userModel(),
-            config('accountable.column_names.updated_by')
+            accountable()->updatedByColumn()
         );
 
         return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
@@ -110,7 +69,7 @@ trait Accountable
     {
         $relation = $this->belongsTo(
             AccountableServiceProvider::userModel(),
-            config('accountable.column_names.deleted_by')
+            accountable()->deletedByColumn()
         );
 
         return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
@@ -126,7 +85,7 @@ trait Accountable
      */
     public function scopeOnlyCreatedBy(Builder $query, Model $user)
     {
-        return $query->where(config('accountable.column_names.created_by'), $user->getKey());
+        return $query->where(accountable()->createdByColumn(), $user->getKey());
     }
 
     /**
@@ -138,7 +97,7 @@ trait Accountable
      */
     public function scopeMine(Builder $query)
     {
-        return $query->where(config('accountable.column_names.created_by'), auth()->id());
+        return $query->where(accountable()->createdByColumn(), auth()->id());
     }
 
     /**
@@ -151,7 +110,7 @@ trait Accountable
      */
     public function scopeOnlyUpdatedBy(Builder $query, Model $user)
     {
-        return $query->where(config('accountable.column_names.updated_by'), $user->getKey());
+        return $query->where(accountable()->updatedByColumn(), $user->getKey());
     }
 
     /**
@@ -164,6 +123,6 @@ trait Accountable
      */
     public function scopeOnlyDeletedBy(Builder $query, Model $user)
     {
-        return $query->where(config('accountable.column_names.deleted_by'), $user->getKey());
+        return $query->where(accountable()->deletedByColumn(), $user->getKey());
     }
 }
