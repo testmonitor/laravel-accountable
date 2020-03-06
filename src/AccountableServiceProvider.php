@@ -10,10 +10,10 @@ class AccountableServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
-            dirname(__DIR__).'/config/accountable.php' => config_path('accountable.php'),
+            dirname(__DIR__) . '/config/accountable.php' => config_path('accountable.php'),
         ], 'config');
 
-        $this->mergeConfigFrom(__DIR__.'/../config/accountable.php', 'accountable');
+        $this->mergeConfigFrom(__DIR__ . '/../config/accountable.php', 'accountable');
     }
 
     /**
