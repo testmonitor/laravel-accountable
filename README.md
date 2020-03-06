@@ -39,13 +39,6 @@ $ composer require testmonitor/laravel-accountable
 
 The package will automatically register itself. 
 
-Older Laravel versions (5.4, 5.3, 5.2) require you to add the Accountable service provider in your 
-Laravel config file `config/app.php` manually:
-
-```php
-TestMonitor\Accountable\AccountableServiceProvider::class
-```
-
 Optionally, publish the configuration file:
 
 ```sh
