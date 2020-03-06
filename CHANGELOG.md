@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.0.0] - 2020-03-07
+### Changed
+- Requires Laravel 6/7
+
 ## [3.1.0] - 2019-09-06
 ### Changed
 - Requires Laravel 6
