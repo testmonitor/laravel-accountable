@@ -92,16 +92,4 @@ class AccountableSettings
     {
         return $this->deletedByColumn;
     }
-
-    /**
-     * @param $status
-     *
-     * @return bool
-     */
-    protected function updateStatus($status)
-    {
-        $this->enabled = $status;
-
-        return $this->enabled;
-    }
 }
