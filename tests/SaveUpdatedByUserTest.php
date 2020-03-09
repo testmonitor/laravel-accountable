@@ -5,6 +5,7 @@ namespace TestMonitor\Accountable\Test;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
 use TestMonitor\Accountable\Traits\Accountable;
+use TestMonitor\Accountable\AccountableSettings;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 
 class SaveUpdatedByUserTest extends TestCase
@@ -13,6 +14,11 @@ class SaveUpdatedByUserTest extends TestCase
      * @var \TestMonitor\Accountable\Test\Models\Record
      */
     protected $record;
+
+    /**
+     * @var AccountableSettings
+     */
+    protected $config;
 
     public function setUp(): void
     {
@@ -23,6 +29,8 @@ class SaveUpdatedByUserTest extends TestCase
         $this->record = new class() extends Record {
             use Accountable;
         };
+
+        $this->config = app()->make(AccountableSettings::class);
     }
 
     /** @test */
@@ -59,6 +67,8 @@ class SaveUpdatedByUserTest extends TestCase
     /** @test */
     public function it_will_save_a_specified_user_as_updater_when_disabling_accountable()
     {
+        $this->config->disable();
+
         $user = User::first();
         $anotherUser = User::all()->last();
 
@@ -71,7 +81,7 @@ class SaveUpdatedByUserTest extends TestCase
 
         $record->name = 'modification';
         $record->updated_by_user_id = $user->id;
-        $record->disableUserLogging()->save();
+        $record->save();
 
         $this->assertNotEquals($record->updated_by_user_id, $anotherUser->id);
         $this->assertEquals($record->updated_by_user_id, $user->id);

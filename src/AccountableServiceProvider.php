@@ -21,7 +21,7 @@ class AccountableServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(AccountableSettings::class);
     }
 
     /**

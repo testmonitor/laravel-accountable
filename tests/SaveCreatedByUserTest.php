@@ -5,6 +5,7 @@ namespace TestMonitor\Accountable\Test;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
 use TestMonitor\Accountable\Traits\Accountable;
+use TestMonitor\Accountable\AccountableSettings;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 
 class SaveCreatedByUserTest extends TestCase
@@ -13,6 +14,11 @@ class SaveCreatedByUserTest extends TestCase
      * @var \TestMonitor\Accountable\Test\Models\Record
      */
     protected $record;
+
+    /**
+     * @var AccountableSettings
+     */
+    protected $config;
 
     public function setUp(): void
     {
@@ -23,6 +29,8 @@ class SaveCreatedByUserTest extends TestCase
         $this->record = new class() extends Record {
             use Accountable;
         };
+
+        $this->config = app()->make(AccountableSettings::class);
     }
 
     /** @test */
@@ -57,6 +65,8 @@ class SaveCreatedByUserTest extends TestCase
     /** @test */
     public function it_will_save_a_specified_user_as_creator_when_disabling_accountable()
     {
+        $this->config->disable();
+
         $user = User::first();
         $anotherUser = User::all()->last();
 
@@ -65,7 +75,7 @@ class SaveCreatedByUserTest extends TestCase
         $record = new $this->record();
 
         $record->created_by_user_id = $anotherUser->id;
-        $record->disableUserLogging()->save();
+        $record->save();
 
         $this->assertNotEquals($record->created_by_user_id, $user->id);
         $this->assertEquals($record->created_by_user_id, $anotherUser->id);
