@@ -62,6 +62,23 @@ class SaveDeletedByUserTest extends TestCase
     }
 
     /** @test */
+    public function it_will_return_a_fall_back_user_when_someone_anonymous_deleted_a_record()
+    {
+        $record = new $this->record();
+        $record->save();
+
+        $record->delete();
+
+        $anonymous = ['name' => 'Neville the Fat Hamster'];
+
+        $this->config->setAnonymousUser($anonymous);
+
+        $this->assertNull($record->deleted_by_user_id);
+        $this->assertInstanceOf(User::class, $record->deletedBy);
+        $this->assertEquals($anonymous['name'], $record->deletedBy->name);
+    }
+
+    /** @test */
     public function it_will_save_a_specified_user_as_deleter_when_disabling_accountable()
     {
         $this->config->disable();

@@ -63,6 +63,24 @@ class SaveCreatedByUserTest extends TestCase
     }
 
     /** @test */
+    public function it_will_return_a_fall_back_user_when_someone_anonymous_created_a_record()
+    {
+        $record = new $this->record();
+        $record->save();
+
+        $anonymous = ['name' => 'Birmingham Bertie'];
+
+        $this->config->setAnonymousUser($anonymous);
+
+        $this->assertNull($record->created_by_user_id);
+        $this->assertNull($record->updated_by_user_id);
+        $this->assertInstanceOf(User::class, $record->createdBy);
+        $this->assertInstanceOf(User::class, $record->updatedBy);
+        $this->assertEquals($anonymous['name'], $record->createdBy->name);
+        $this->assertEquals($anonymous['name'], $record->updatedBy->name);
+    }
+
+    /** @test */
     public function it_will_save_a_specified_user_as_creator_when_disabling_accountable()
     {
         $this->config->disable();

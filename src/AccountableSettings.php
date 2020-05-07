@@ -27,14 +27,24 @@ class AccountableSettings
     protected $deletedByColumn;
 
     /**
+     * @var array|null
+     */
+    protected $anonymousUser;
+
+    /**
      * AccountableSettings constructor.
+     *
+     * @param \Illuminate\Config\Repository $config
      */
     public function __construct(Repository $config)
     {
         $this->enabled = $config->get('accountable.enabled');
+
         $this->createdByColumn = $config->get('accountable.column_names.created_by');
         $this->updatedByColumn = $config->get('accountable.column_names.updated_by');
         $this->deletedByColumn = $config->get('accountable.column_names.deleted_by');
+
+        $this->anonymousUser = $config->get('accountable.anonymous');
     }
 
     /**
@@ -72,7 +82,7 @@ class AccountableSettings
     /**
      * @return string
      */
-    public function createdByColumn()
+    public function createdByColumn(): string
     {
         return $this->createdByColumn;
     }
@@ -80,7 +90,7 @@ class AccountableSettings
     /**
      * @return string
      */
-    public function updatedByColumn()
+    public function updatedByColumn(): string
     {
         return $this->updatedByColumn;
     }
@@ -88,8 +98,26 @@ class AccountableSettings
     /**
      * @return string
      */
-    public function deletedByColumn()
+    public function deletedByColumn(): string
     {
         return $this->deletedByColumn;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function anonymousUser()
+    {
+        return $this->anonymousUser;
+    }
+
+    /**
+     * @param array $user
+     *
+     * @return array
+     */
+    public function setAnonymousUser(array $user)
+    {
+        return $this->anonymousUser = $user;
     }
 }

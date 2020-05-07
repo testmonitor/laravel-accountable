@@ -38,4 +38,16 @@ return [
         'updated_by' => 'updated_by_user_id',
         'deleted_by' => 'deleted_by_user_id',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Anonymous User
+    |--------------------------------------------------------------------------
+    |
+    | Unauthenticated users will leave empty (NULL) columns. In these cases,
+    | you might want to fall back on a fictive, anonymous user. Use this
+    | array to specify its details or leave it NULL to forgo a fallback.
+    |
+    */
+    'anonymous' => null,
 ];
