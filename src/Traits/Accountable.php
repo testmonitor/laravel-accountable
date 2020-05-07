@@ -37,10 +37,8 @@ trait Accountable
      */
     public function createdBy()
     {
-        $relation = $this->belongsTo(
-            AccountableServiceProvider::userModel(),
-            accountable()->createdByColumn()
-        );
+        $relation = $this->belongsTo(AccountableServiceProvider::userModel(), accountable()->createdByColumn())
+                         ->withDefault(accountable()->anonymousUser());
 
         return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
     }
@@ -52,10 +50,8 @@ trait Accountable
      */
     public function updatedBy()
     {
-        $relation = $this->belongsTo(
-            AccountableServiceProvider::userModel(),
-            accountable()->updatedByColumn()
-        );
+        $relation = $this->belongsTo(AccountableServiceProvider::userModel(), accountable()->updatedByColumn())
+                         ->withDefault(accountable()->anonymousUser());
 
         return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
     }
@@ -67,10 +63,8 @@ trait Accountable
      */
     public function deletedBy()
     {
-        $relation = $this->belongsTo(
-            AccountableServiceProvider::userModel(),
-            accountable()->deletedByColumn()
-        );
+        $relation = $this->belongsTo(AccountableServiceProvider::userModel(), accountable()->deletedByColumn())
+                         ->withDefault(accountable()->anonymousUser());
 
         return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
     }
@@ -97,7 +91,9 @@ trait Accountable
      */
     public function scopeMine(Builder $query)
     {
-        return $query->where(accountable()->createdByColumn(), auth()->id());
+        $user = AccountableServiceProvider::accountableUser();
+
+        return $query->where(accountable()->createdByColumn(), ! is_null($user) ? $user->getKey() : null);
     }
 
     /**

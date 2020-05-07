@@ -25,7 +25,7 @@ class AccountableServiceProvider extends \Illuminate\Support\ServiceProvider
     }
 
     /**
-     * Returns the current used, based on the configured authentication driver.
+     * Returns the configured authentication driver.
      *
      * @return string
      */
@@ -35,7 +35,7 @@ class AccountableServiceProvider extends \Illuminate\Support\ServiceProvider
     }
 
     /**
-     * Returns the current used, based on the configured authentication driver.
+     * Returns the current user, based on the configured authentication driver.
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
