@@ -45,8 +45,9 @@ Optionally, publish the configuration file:
 $ php artisan vendor:publish --provider="TestMonitor\Accountable\AccountableServiceProvider" --tag="config"
 ```
 
-The configuration file allows you to set the preferred authentication driver and the database
-column names. 
+The configuration file allows you to set the preferred authentication driver, the database
+column names, and anonymous user. The latter can be used to deal with records created/updated by 
+unauthenticated users.
 
 When left untouched, Accountable will use the default authentication driver and
 the default column names (*created_by_user_id*, *updated_by_user_id*, and *deleted_by_user_id*).

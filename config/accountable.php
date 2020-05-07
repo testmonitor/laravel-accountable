@@ -50,4 +50,12 @@ return [
     |
     */
     'anonymous' => null,
+
+    /*
+     * Example:
+     *
+    'anonymous' => [
+        'name' => 'Anonymous'
+    ],
+    */
 ];
