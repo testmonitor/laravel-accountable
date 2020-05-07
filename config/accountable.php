@@ -10,7 +10,8 @@ return [
     | When this switch is set false the accountable package will stop logging.
     |
     */
-    'enabled' => true,
+
+    'enabled' => env('ACCOUNTABLE_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ return [
     | to null, Accountable will be using the default Laravel driver.
     |
     */
+
     'auth_driver' => null,
 
     /*
@@ -33,6 +35,7 @@ return [
     | should be present on each model / table that implements Accountable.
     |
     */
+
     'column_names' => [
         'created_by' => 'created_by_user_id',
         'updated_by' => 'updated_by_user_id',
@@ -49,6 +52,7 @@ return [
     | array to specify its details or leave it NULL to forgo a fallback.
     |
     */
+
     'anonymous' => null,
 
     /*
