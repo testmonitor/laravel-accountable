@@ -41,6 +41,11 @@ class AccountableObserver
         if ($this->config->enabled()) {
             $model->{$this->config->createdByColumn()} = $this->accountableUserId();
             $model->{$this->config->updatedByColumn()} = $this->accountableUserId();
+
+            foreach ($model->getTouchedRelations() as $relation) {
+                $model->$relation->{$this->config->updatedByColumn()} = $this->accountableUserId();
+                $model->$relation->save();
+            }
         }
     }
 
@@ -53,6 +58,11 @@ class AccountableObserver
     {
         if ($this->config->enabled()) {
             $model->{$this->config->updatedByColumn()} = $this->accountableUserId();
+
+            foreach ($model->getTouchedRelations() as $relation) {
+                $model->$relation->{$this->config->updatedByColumn()} = $this->accountableUserId();
+                $model->$relation->save();
+            }
         }
     }
 
@@ -66,6 +76,11 @@ class AccountableObserver
         if ($this->config->enabled() &&
             collect(class_uses($model))->contains(SoftDeletes::class)) {
             $model->{$this->config->deletedByColumn()} = $this->accountableUserId();
+
+            foreach ($model->getTouchedRelations() as $relation) {
+                $model->$relation->{$this->config->updatedByColumn()} = $this->accountableUserId();
+                $model->$relation->save();
+            }
 
             $model->save();
         }

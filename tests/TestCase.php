@@ -51,6 +51,29 @@ abstract class TestCase extends OrchestraTestCase
             }
         });
 
+        $builder->create('blogs', function (Blueprint $table) use ($withSoftDeletes) {
+            $table->increments('id');
+            $table->string('name')->default('');
+
+            Accountable::columns($table, $withSoftDeletes); // without SoftDeletes
+
+            if ($withSoftDeletes) {
+                $table->softDeletes();
+            }
+        });
+
+        $builder->create('posts', function (Blueprint $table) use ($withSoftDeletes) {
+            $table->increments('id');
+            $table->string('name')->default('');
+            $table->integer('blog_id')->default(null);
+
+            Accountable::columns($table, $withSoftDeletes); // without SoftDeletes
+
+            if ($withSoftDeletes) {
+                $table->softDeletes();
+            }
+        });
+
         $builder->create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
