@@ -5,7 +5,7 @@ jobs:
     working_directory: ~/testmonitor/laravel-accountable
 
     docker:
-      - image: circleci/php:7.2-browsers
+      - image: circleci/php:7.4-browsers
 
     steps:
       - run:
