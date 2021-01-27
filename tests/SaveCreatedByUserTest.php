@@ -53,7 +53,7 @@ class SaveCreatedByUserTest extends TestCase
     /** @test */
     public function it_will_save_the_impersonator_that_created_a_record()
     {
-        $impersonator = User::create(['name' => "Impersonator"]);
+        $impersonator = User::create(['name' => 'Impersonator']);
         accountable()->actingAs($impersonator);
 
         $record = new $this->record();

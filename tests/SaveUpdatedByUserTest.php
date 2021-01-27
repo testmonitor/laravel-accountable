@@ -59,7 +59,7 @@ class SaveUpdatedByUserTest extends TestCase
         $record = new $this->record();
         $record->save();
 
-        $impersonator = User::create(['name' => "Impersonator"]);
+        $impersonator = User::create(['name' => 'Impersonator']);
         accountable()->actingAs($impersonator);
 
         $record->name = 'modification';
