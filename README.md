@@ -109,7 +109,9 @@ class Project extends Model
 
 ## Examples
 
-Setup your model and make sure you are authenticated.
+Set up your model and make sure you are authenticated.
+
+### Basics
 
 Create a project and show the name of the user that created it:
 
@@ -130,7 +132,10 @@ $user = User::findOrFail(42);
 Project::onlyCreatedBy($user)->get();
 ```
 
-You can use the following properties and methods to reveal the user responsible:
+### Properties
+
+You can use the following properties and methods to reveal the user responsible
+for creating, updating or deleting the record.
 
 ```php
 // Get the user that created the model
@@ -146,6 +151,8 @@ $model->deleted_by_user_id;
 $model->deletedBy->name;
 ```
 
+### Scope Queries
+
 The following scope queries are at your disposal:
 
 ```php
@@ -160,6 +167,8 @@ Model::onlyDeletedBy($user)->get();
 Model::mine()->get(); 
 ```
 
+### Disable Logging
+
 In some cases, you don't want to automatically save the user along 
 with the model (for example: when seeding test data). You can disable
 accountable by using the `disableUserLogging` method.
@@ -171,6 +180,16 @@ $project->disableUserLogging()->save();
 
 If you want to re-enable accountable, simply use the `enableUserLogging`
 method afterwards.
+
+### Impersonation
+
+When authentication is not available, for example, when running jobs
+in a queue, you might want to "impersonate" a user. Simply override
+user identification with the `actingAs` method:
+
+```php
+accountable()->actingAs($event->causer);
+```
 
 ## Tests
 
