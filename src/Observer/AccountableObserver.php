@@ -26,7 +26,7 @@ class AccountableObserver
      */
     protected function accountableUserId()
     {
-        $user = AccountableServiceProvider::accountableUser();
+        $user = accountable()->impersonatedUser() ?? AccountableServiceProvider::accountableUser();
 
         return ! is_null($user) ? $user->getKey() : null;
     }

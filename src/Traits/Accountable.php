@@ -91,7 +91,7 @@ trait Accountable
      */
     public function scopeMine(Builder $query)
     {
-        $user = AccountableServiceProvider::accountableUser();
+        $user = accountable()->impersonatedUser() ?? AccountableServiceProvider::accountableUser();
 
         return $query->where(accountable()->createdByColumn(), ! is_null($user) ? $user->getKey() : null);
     }

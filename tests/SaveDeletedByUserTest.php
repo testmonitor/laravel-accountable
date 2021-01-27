@@ -50,6 +50,22 @@ class SaveDeletedByUserTest extends TestCase
     }
 
     /** @test */
+    public function it_will_save_the_impersonator_that_deleted_a_record()
+    {
+        $impersonator = User::create(['name' => "Impersonator"]);
+        accountable()->actingAs($impersonator);
+
+        $record = new $this->record();
+        $record->save();
+
+        $record->delete();
+
+        $this->assertEquals($record->deleted_by_user_id, $impersonator->id);
+        $this->assertEquals($record->deletedBy->name, $impersonator->name);
+        $this->assertInstanceOf(get_class($impersonator), $record->deletedBy);
+    }
+
+    /** @test */
     public function it_will_not_save_the_anonymous_user_that_deleted_a_record()
     {
         $record = new $this->record();

@@ -52,6 +52,25 @@ class SaveUpdatedByUserTest extends TestCase
     }
 
     /** @test */
+    public function it_will_save_the_impersonator_that_last_updated_a_record()
+    {
+        $this->actingAs(User::all()->last());
+
+        $record = new $this->record();
+        $record->save();
+
+        $impersonator = User::create(['name' => "Impersonator"]);
+        accountable()->actingAs($impersonator);
+
+        $record->name = 'modification';
+        $record->save();
+
+        $this->assertEquals($record->updated_by_user_id, $impersonator->id);
+        $this->assertEquals($record->updatedBy->name, $impersonator->name);
+        $this->assertInstanceOf(get_class($impersonator), $record->updatedBy);
+    }
+
+    /** @test */
     public function it_will_not_save_the_anonymous_user_that_updated_a_record()
     {
         $record = new $this->record();
