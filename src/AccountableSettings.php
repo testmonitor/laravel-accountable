@@ -138,6 +138,14 @@ class AccountableSettings
     }
 
     /**
+     * @return void
+     */
+    public function reset()
+    {
+        $this->impersonatedUser = null;
+    }
+
+    /**
      * @return array|null
      */
     public function anonymousUser()

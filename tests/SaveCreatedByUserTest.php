@@ -66,6 +66,28 @@ class SaveCreatedByUserTest extends TestCase
     }
 
     /** @test */
+    public function it_will_save_the_user_that_created_a_record_after_resetting_the_impersonator()
+    {
+        $user = User::first();
+        $this->actingAs($user);
+
+        $impersonator = User::create(['name' => 'Impersonator']);
+        accountable()->actingAs($impersonator);
+
+        accountable()->reset();
+
+        $record = new $this->record();
+        $record->save();
+
+        $this->assertEquals($record->created_by_user_id, $user->id);
+        $this->assertEquals($record->updated_by_user_id, User::first()->id);
+        $this->assertEquals($record->createdBy->name, $user->name);
+        $this->assertEquals($record->updatedBy->name, User::first()->name);
+        $this->assertInstanceOf(get_class($user), $record->createdBy);
+        $this->assertInstanceOf(get_class($user), $record->updatedBy);
+    }
+
+    /** @test */
     public function it_will_not_save_the_anonymous_user_that_created_a_record()
     {
         $record = new $this->record();

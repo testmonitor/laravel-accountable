@@ -183,13 +183,15 @@ method afterwards.
 
 ### Impersonation
 
-When authentication is not available, for example, when running jobs
-in a queue, you might want to "impersonate" a user. Simply override
+When authentication is not available - for example, when running jobs
+in a queue - you might want to "impersonate" a user. Simply override
 user identification with the `actingAs` method:
 
 ```php
 accountable()->actingAs($event->causer);
 ```
+
+You can end the impersonation by calling the `reset` method.
 
 ## Tests
 
