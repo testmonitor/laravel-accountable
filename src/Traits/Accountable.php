@@ -74,7 +74,6 @@ trait Accountable
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param \Illuminate\Database\Eloquent\Model $user
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOnlyCreatedBy(Builder $query, Model $user)
@@ -86,7 +85,6 @@ trait Accountable
      * Scope a query to only include records created by the current logged in user.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeMine(Builder $query)
@@ -101,7 +99,6 @@ trait Accountable
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param \Illuminate\Database\Eloquent\Model $user
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOnlyUpdatedBy(Builder $query, Model $user)
@@ -114,7 +111,6 @@ trait Accountable
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param \Illuminate\Database\Eloquent\Model $user
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOnlyDeletedBy(Builder $query, Model $user)
