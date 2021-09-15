@@ -7,3 +7,6 @@ enabled:
 disabled:
     - alpha_ordered_imports
     - concat_without_spaces
+    - laravel_braces
+    - laravel_phpdoc_alignment
+    - laravel_phpdoc_order
