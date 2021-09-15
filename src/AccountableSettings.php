@@ -119,7 +119,6 @@ class AccountableSettings
 
     /**
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     *
      * @return void
      */
     public function actingAs(Authenticatable $user)
@@ -129,7 +128,6 @@ class AccountableSettings
 
     /**
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     *
      * @return void
      */
     public function become(Authenticatable $user)
@@ -155,7 +153,6 @@ class AccountableSettings
 
     /**
      * @param array $user
-     *
      * @return array
      */
     public function setAnonymousUser(array $user)
