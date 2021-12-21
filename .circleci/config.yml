@@ -60,7 +60,7 @@ jobs:
                     name: Install System Dependencies
                     command: |
                         sudo apt-get update
-                        sudo apt-get install -y sqlite3 php8.0-sqlite3
+                        sudo apt-get install -y sqlite3 libsqlite3-dev
             - attach_workspace:
                   at: .
             - run:
