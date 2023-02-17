@@ -5,7 +5,7 @@ jobs:
         working_directory: ~/testmonitor/laravel-accountable
 
         docker:
-            - image: cimg/php:8.0
+            - image: cimg/php:8.1
 
         steps:
             - run:
@@ -24,7 +24,7 @@ jobs:
         working_directory: ~/testmonitor/laravel-accountable
 
         docker:
-            - image: cimg/php:8.0
+            - image: cimg/php:8.1
 
         steps:
             - attach_workspace:
@@ -53,21 +53,27 @@ jobs:
         working_directory: ~/testmonitor/laravel-accountable
 
         docker:
-            - image: cimg/php:8.0
+            - image: cimg/php:8.1
 
         steps:
-            -   run:
-                    name: Install System Dependencies
-                    command: |
-                        sudo apt-get update
-                        sudo apt-get install -y sqlite3 libsqlite3-dev
+            - run:
+                  name: Install System Dependencies
+                  command: |
+                      sudo apt-get update
+                      sudo apt-get install -y sqlite3 libsqlite3-dev
+            - run:
+                  name: Install PCOV
+                  command: |
+                      sudo apt-get update
+                      sudo apt install php-common
+                      sudo pecl install pcov
             - attach_workspace:
                   at: .
             - run:
                   name: Run Unit Tests
                   command: |
                       mkdir -p ./logs/phpunit
-                      vendor/bin/phpunit -d memory_limit=1G --printer "\PHPUnit\TextUI\DefaultResultPrinter" --log-junit logs/phpunit/junit.xml --testdox-html logs/phpunit/testdox.html
+                      vendor/bin/phpunit -d memory_limit=1G --log-junit logs/phpunit/junit.xml --testdox-html logs/phpunit/testdox.html
 
             - store_artifacts:
                   path: ./logs/phpunit
