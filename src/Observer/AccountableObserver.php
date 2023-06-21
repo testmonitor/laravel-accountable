@@ -2,33 +2,24 @@
 
 namespace TestMonitor\Accountable\Observer;
 
+use Illuminate\Database\Eloquent\Model;
+use TestMonitor\Accountable\Accountable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use TestMonitor\Accountable\AccountableSettings;
-use TestMonitor\Accountable\AccountableServiceProvider;
 
 class AccountableObserver
 {
     /**
-     * @var AccountableSettings
+     * @var \TestMonitor\Accountable\AccountableSettings
      */
-    protected $config;
+    protected $settings;
 
     /**
      * AccountableObserver constructor.
      */
     public function __construct()
     {
-        $this->config = app()->make(AccountableSettings::class);
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function accountableUserId()
-    {
-        $user = accountable()->impersonatedUser() ?? AccountableServiceProvider::accountableUser();
-
-        return ! is_null($user) ? $user->getKey() : null;
+        $this->settings = app()->make(AccountableSettings::class);
     }
 
     /**
@@ -36,11 +27,11 @@ class AccountableObserver
      *
      * @param \Illuminate\Database\Eloquent\Model $model
      */
-    public function creating($model)
+    public function creating(Model $model)
     {
-        if ($this->config->enabled()) {
-            $model->{$this->config->createdByColumn()} = $this->accountableUserId();
-            $model->{$this->config->updatedByColumn()} = $this->accountableUserId();
+        if ($this->settings->enabled()) {
+            $model->setCreatedBy(Accountable::authenticatedUser());
+            $model->setUpdatedBy(Accountable::authenticatedUser());
         }
     }
 
@@ -49,10 +40,10 @@ class AccountableObserver
      *
      * @param \Illuminate\Database\Eloquent\Model $model
      */
-    public function updating($model)
+    public function updating(Model $model)
     {
-        if ($this->config->enabled()) {
-            $model->{$this->config->updatedByColumn()} = $this->accountableUserId();
+        if ($this->settings->enabled()) {
+            $model->setUpdatedBy(Accountable::authenticatedUser());
         }
     }
 
@@ -61,13 +52,24 @@ class AccountableObserver
      *
      * @param \Illuminate\Database\Eloquent\Model $model
      */
-    public function deleting($model)
+    public function deleting(Model $model)
     {
-        if ($this->config->enabled() &&
-            collect(class_uses($model))->contains(SoftDeletes::class)) {
-            $model->{$this->config->deletedByColumn()} = $this->accountableUserId();
+        if ($this->settings->enabled() && $this->modelUsesSoftDeletes($model)) {
+            $model->setDeletedBy(Accountable::authenticatedUser());
 
-            $model->save();
+            $model->saveQuietly();
         }
+    }
+
+    /**
+     * Determines if the model uses soft deletes.
+     *
+     * @param \Illuminate\Database\Eloquent\Model $model
+     *
+     * @return bool
+     */
+    protected function modelUsesSoftDeletes(Model $model): bool
+    {
+        return collect(class_uses($model))->contains(SoftDeletes::class);
     }
 }

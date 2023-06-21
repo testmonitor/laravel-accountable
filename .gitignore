@@ -2,8 +2,15 @@ composer.lock
 vendor
 build
 
+# IDE
+.vscode/
 .idea/
 .idea_modules/
 
+# PHPUnit
+.phpunit.cache
 .phpunit.result.cache
+
+# Code Styling / Linting
 .php_cs.cache
+.php-cs-fixer.cache
