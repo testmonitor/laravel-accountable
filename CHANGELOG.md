@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.0.0] - 2023-06-28
+### Added
+- Creator, editor and deleter methods (replacements for createdBy, updatedBy and deletedBy)
+- touchWithEditor method
+
+### Updated
+- Full rewrite
+- Improved strong typing
+- Deprecated: createdBy, updatedBy and deletedBy
+
 ## [7.0.0] - 2023-04-09
 ### Added
 - Support Laravel 10.0
