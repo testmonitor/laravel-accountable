@@ -120,7 +120,7 @@ $project = new Project(['name' => 'Awesome project']);
 $project->save();
 
 // Show the name of user that created the project
-echo $project->createdBy->name; 
+echo $project->creator->name; 
 ```
 
 Get all projects created by a specific user:
@@ -140,15 +140,15 @@ for creating, updating or deleting the record.
 ```php
 // Get the user that created the model
 $model->created_by_user_id;
-$model->createdBy->name;
+$model->creator->name;
 
 // Get the user that last updated the model
 $model->updated_by_user_id;
-$model->updatedBy->name;
+$model->editor->name;
 
 // Get the user that last deleted the model
 $model->deleted_by_user_id;
-$model->deletedBy->name;
+$model->deleter->name;
 ```
 
 ### Scope Queries
