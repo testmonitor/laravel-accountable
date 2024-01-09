@@ -5,7 +5,7 @@ jobs:
         working_directory: ~/testmonitor/laravel-accountable
 
         docker:
-            - image: cimg/php:8.1
+            - image: cimg/php:8.2
 
         steps:
             - run:
@@ -24,7 +24,7 @@ jobs:
         working_directory: ~/testmonitor/laravel-accountable
 
         docker:
-            - image: cimg/php:8.1
+            - image: cimg/php:8.2
 
         steps:
             - attach_workspace:
@@ -53,7 +53,7 @@ jobs:
         working_directory: ~/testmonitor/laravel-accountable
 
         docker:
-            - image: cimg/php:8.1
+            - image: cimg/php:8.2
 
         steps:
             - run:
