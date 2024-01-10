@@ -1,7 +1,9 @@
 language: php
+dist: jammy
 
 php:
     - 8.1
+    - 8.2
 
 # This triggers builds to run on the new TravisCI infrastructure.
 # See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
