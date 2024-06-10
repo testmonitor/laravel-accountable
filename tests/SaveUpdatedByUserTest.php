@@ -2,6 +2,7 @@
 
 namespace TestMonitor\Accountable\Test;
 
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
 use TestMonitor\Accountable\Traits\Accountable;
@@ -33,7 +34,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->config = app()->make(AccountableSettings::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_save_the_user_that_last_updated_a_record()
     {
         $this->actingAs(User::all()->last());
@@ -51,7 +52,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->assertInstanceOf(get_class(User::first()), $record->updatedBy);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_save_the_impersonator_that_last_updated_a_record()
     {
         $this->actingAs(User::all()->last());
@@ -70,7 +71,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->assertInstanceOf(get_class($impersonator), $record->updatedBy);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_not_save_the_anonymous_user_that_updated_a_record()
     {
         $record = new $this->record();
@@ -83,7 +84,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->assertNull($record->updatedBy);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_return_a_fall_back_user_when_someone_anonymous_updated_a_record()
     {
         $record = new $this->record();
@@ -101,7 +102,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->assertEquals($anonymous['name'], $record->updatedBy->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_save_a_specified_user_as_updater_when_disabling_accountable()
     {
         $this->config->disable();
@@ -124,7 +125,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->assertEquals($record->updated_by_user_id, $user->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_retrieve_the_updated_records_for_a_specific_user()
     {
         $this->actingAs(User::all()->last());
@@ -149,7 +150,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->assertEquals($record->id, $results->first()->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_retrieve_the_soft_deleted_user_that_created_a_record()
     {
         collect(range(1, 5))->each(function () {
