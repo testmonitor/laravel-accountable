@@ -2,6 +2,7 @@
 
 namespace TestMonitor\Accountable\Test;
 
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
 use TestMonitor\Accountable\Traits\Accountable;
@@ -33,7 +34,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->config = app()->make(AccountableSettings::class);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_save_the_user_that_created_a_record()
     {
         $user = User::first();
@@ -50,7 +51,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertInstanceOf(get_class($user), $record->updatedBy);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_save_the_impersonator_that_created_a_record()
     {
         $impersonator = User::create(['name' => 'Impersonator']);
@@ -65,7 +66,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertInstanceOf(get_class($impersonator), $record->updatedBy);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_save_the_user_that_created_a_record_after_resetting_the_impersonator()
     {
         $user = User::first();
@@ -87,7 +88,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertInstanceOf(get_class($user), $record->updatedBy);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_not_save_the_anonymous_user_that_created_a_record()
     {
         $record = new $this->record();
@@ -99,7 +100,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertNull($record->updatedBy);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_return_a_fall_back_user_when_someone_anonymous_created_a_record()
     {
         $record = new $this->record();
@@ -117,7 +118,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertEquals($anonymous['name'], $record->updatedBy->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_save_a_specified_user_as_creator_when_disabling_accountable()
     {
         $this->config->disable();
@@ -136,7 +137,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertEquals($record->created_by_user_id, $anotherUser->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_retrieve_the_created_records_from_a_specific_user()
     {
         collect(range(1, 5))->each(function () {
@@ -155,7 +156,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertEquals($record->id, $results->first()->id);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_retrieve_the_soft_deleted_user_that_created_a_record()
     {
         collect(range(1, 5))->each(function () {
@@ -174,7 +175,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertEquals($record->createdBy->name, $user->name);
     }
 
-    /** @test */
+    #[Test]
     public function it_will_retrieve_the_created_records_from_the_currently_authenticated_user()
     {
         $this->actingAs(User::first());
