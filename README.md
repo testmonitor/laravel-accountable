@@ -1,6 +1,7 @@
 # Accountable Eloquent models
 
 [![Latest Stable Version](https://poser.pugx.org/testmonitor/laravel-accountable/v/stable)](https://packagist.org/packages/testmonitor/laravel-accountable)
+[![codecov](https://codecov.io/gh/testmonitor/laravel-accountable/graph/badge.svg?token=Y1ZNUEPF8U)](https://codecov.io/gh/testmonitor/laravel-accountable)
 [![CircleCI](https://img.shields.io/circleci/project/github/testmonitor/laravel-accountable.svg)](https://circleci.com/gh/testmonitor/laravel-accountable)
 [![Travis Build](https://travis-ci.org/testmonitor/laravel-accountable.svg?branch=master)](https://app.travis-ci.com/github/laravel-accountable)
 [![Code Quality](https://scrutinizer-ci.com/g/testmonitor/laravel-accountable/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/testmonitor/laravel-accountable/?branch=master)
