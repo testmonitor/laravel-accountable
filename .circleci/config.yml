@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+    codecov: codecov/codecov@4.1.0
+
 jobs:
     build:
         working_directory: ~/testmonitor/laravel-accountable
@@ -73,8 +76,9 @@ jobs:
                   name: Run Unit Tests
                   command: |
                       mkdir -p ./logs/phpunit
-                      vendor/bin/phpunit -d memory_limit=1G --log-junit logs/phpunit/junit.xml --testdox-html logs/phpunit/testdox.html
-
+                      vendor/bin/phpunit -d memory_limit=1G --coverage-clover coverage.xml --log-junit logs/phpunit/junit.xml --testdox-html logs/phpunit/testdox.html
+            - codecov/upload:
+                  file: coverage.xml
             - store_artifacts:
                   path: ./logs/phpunit
                   destination: phpunit
