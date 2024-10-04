@@ -18,4 +18,3 @@ coverage:
         threshold: 5
         # advanced
         informational: true
-slack_app: true
