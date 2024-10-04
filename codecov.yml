@@ -1,0 +1,20 @@
+codecov:
+  branch: master
+coverage:
+  precision: 2
+  range: "60...80"
+  status:
+    project:
+      default:
+        # basic
+        target: 20
+        threshold: 5
+        # advanced
+        informational: true
+    patch:
+      default:
+        # basic
+        target: 20
+        threshold: 5
+        # advanced
+        informational: true
