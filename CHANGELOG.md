@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [9.0.0] - 2024-11-27
+### Added
+- Support for Laravel 11.0
+
+### Updated
+- Replaced Travis / Scrutinizer with Codecov
+- Dropped support for anything before PHP 8.2
+- Dropped support for Laravel 10 and below
+
 ## [8.0.0] - 2023-06-28
 ### Added
 - Creator, editor and deleter methods (replacements for createdBy, updatedBy and deletedBy)
@@ -86,11 +95,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.1.0] - 2017-09-23
 ### Added
-- Support for auto-loading service provider in Laravel 5.5  
+- Support for auto-loading service provider in Laravel 5.5
 
 ## [1.0.3] - 2017-05-18
 ### Fixed
-- Accountable observer blocks other Laravel model listeners/observers 
+- Accountable observer blocks other Laravel model listeners/observers
 
 ## [1.0.2] - 2017-04-26
 ### Changed
@@ -104,4 +113,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.0] - 2017-04-24
 ### Added
 - Initial version.
-
