@@ -46,8 +46,9 @@ class SaveDeletedByUserTest extends TestCase
         $record->delete();
 
         $this->assertEquals($record->deleted_by_user_id, User::first()->id);
+        $this->assertEquals($record->deleter->name, User::first()->name);
         $this->assertEquals($record->deletedBy->name, User::first()->name);
-        $this->assertInstanceOf(get_class(User::first()), $record->deletedBy);
+        $this->assertInstanceOf(get_class(User::first()), $record->deleter);
     }
 
     #[Test]
@@ -62,8 +63,24 @@ class SaveDeletedByUserTest extends TestCase
         $record->delete();
 
         $this->assertEquals($record->deleted_by_user_id, $impersonator->id);
-        $this->assertEquals($record->deletedBy->name, $impersonator->name);
-        $this->assertInstanceOf(get_class($impersonator), $record->deletedBy);
+        $this->assertEquals($record->deleter->name, $impersonator->name);
+        $this->assertInstanceOf(get_class($impersonator), $record->deleter);
+    }
+
+    #[Test]
+    public function it_will_save_the_impersonator_while_running_a_callback_that_deleted_a_record()
+    {
+        $impersonator = User::create(['name' => 'Impersonator']);
+        $record = new $this->record();
+        $record->save();
+
+        accountable()->whileActingAs($impersonator, function() use ($record) {
+            $record->delete();
+        });
+
+        $this->assertEquals($record->deleted_by_user_id, $impersonator->id);
+        $this->assertEquals($record->deleter->name, $impersonator->name);
+        $this->assertInstanceOf(get_class($impersonator), $record->deleter);
     }
 
     #[Test]
@@ -75,7 +92,7 @@ class SaveDeletedByUserTest extends TestCase
         $record->delete();
 
         $this->assertNull($record->deleted_by_user_id);
-        $this->assertNull($record->deletedBy);
+        $this->assertNull($record->deleter);
     }
 
     #[Test]
@@ -91,8 +108,8 @@ class SaveDeletedByUserTest extends TestCase
         $this->config->setAnonymousUser($anonymous);
 
         $this->assertNull($record->deleted_by_user_id);
-        $this->assertInstanceOf(User::class, $record->deletedBy);
-        $this->assertEquals($anonymous['name'], $record->deletedBy->name);
+        $this->assertInstanceOf(User::class, $record->deleter);
+        $this->assertEquals($anonymous['name'], $record->deleter->name);
     }
 
     #[Test]
@@ -152,6 +169,6 @@ class SaveDeletedByUserTest extends TestCase
 
         $this->assertTrue($user->trashed());
         $this->assertTrue($record->trashed());
-        $this->assertEquals($record->deletedBy->name, $user->name);
+        $this->assertEquals($record->deleter->name, $user->name);
     }
 }

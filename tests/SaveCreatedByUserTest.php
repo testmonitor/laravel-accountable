@@ -45,10 +45,12 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertEquals($record->created_by_user_id, $user->id);
         $this->assertEquals($record->updated_by_user_id, User::first()->id);
-        $this->assertEquals($record->createdBy->name, $user->name);
-        $this->assertEquals($record->updatedBy->name, User::first()->name);
-        $this->assertInstanceOf(get_class($user), $record->createdBy);
-        $this->assertInstanceOf(get_class($user), $record->updatedBy);
+        $this->assertEquals($record->creator->name, $user->name);
+        $this->assertEquals($record->editor->name, User::first()->name);
+        $this->assertEquals($record->creator->name, $user->name);
+        $this->assertEquals($record->editor->name, User::first()->name);
+        $this->assertInstanceOf(get_class($user), $record->creator);
+        $this->assertInstanceOf(get_class($user), $record->editor);
     }
 
     #[Test]
@@ -61,9 +63,9 @@ class SaveCreatedByUserTest extends TestCase
         $record->save();
 
         $this->assertEquals($record->created_by_user_id, $impersonator->id);
-        $this->assertEquals($record->createdBy->name, $impersonator->name);
-        $this->assertInstanceOf(get_class($impersonator), $record->createdBy);
-        $this->assertInstanceOf(get_class($impersonator), $record->updatedBy);
+        $this->assertEquals($record->creator->name, $impersonator->name);
+        $this->assertInstanceOf(get_class($impersonator), $record->creator);
+        $this->assertInstanceOf(get_class($impersonator), $record->editor);
     }
 
     #[Test]
@@ -82,10 +84,31 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertEquals($record->created_by_user_id, $user->id);
         $this->assertEquals($record->updated_by_user_id, User::first()->id);
-        $this->assertEquals($record->createdBy->name, $user->name);
-        $this->assertEquals($record->updatedBy->name, User::first()->name);
-        $this->assertInstanceOf(get_class($user), $record->createdBy);
-        $this->assertInstanceOf(get_class($user), $record->updatedBy);
+        $this->assertEquals($record->creator->name, $user->name);
+        $this->assertEquals($record->editor->name, User::first()->name);
+        $this->assertInstanceOf(get_class($user), $record->creator);
+        $this->assertInstanceOf(get_class($user), $record->editor);
+    }
+
+    #[Test]
+    public function it_will_save_the_impersonated_user_and_reset_it_while_running_callback()
+    {
+        $user = User::first();
+        $this->actingAs($user);
+
+        $impersonator = User::create(['name' => 'Impersonator']);
+        $record = new $this->record();
+
+        accountable()->whileActingAs($impersonator, function() use ($record) {
+            $record->save();
+        });
+
+        $this->assertEquals($record->created_by_user_id, $impersonator->id);
+        $this->assertEquals($record->updated_by_user_id, $impersonator->id);
+        $this->assertEquals($record->creator->name, $impersonator->name);
+        $this->assertEquals($record->editor->name, $impersonator->name);
+        $this->assertInstanceOf(get_class($impersonator), $record->creator);
+        $this->assertInstanceOf(get_class($impersonator), $record->editor);
     }
 
     #[Test]
@@ -96,8 +119,8 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertNull($record->created_by_user_id);
         $this->assertNull($record->updated_by_user_id);
-        $this->assertNull($record->createdBy);
-        $this->assertNull($record->updatedBy);
+        $this->assertNull($record->creator);
+        $this->assertNull($record->editor);
     }
 
     #[Test]
@@ -112,10 +135,10 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertNull($record->created_by_user_id);
         $this->assertNull($record->updated_by_user_id);
-        $this->assertInstanceOf(User::class, $record->createdBy);
-        $this->assertInstanceOf(User::class, $record->updatedBy);
-        $this->assertEquals($anonymous['name'], $record->createdBy->name);
-        $this->assertEquals($anonymous['name'], $record->updatedBy->name);
+        $this->assertInstanceOf(User::class, $record->creator);
+        $this->assertInstanceOf(User::class, $record->editor);
+        $this->assertEquals($anonymous['name'], $record->creator->name);
+        $this->assertEquals($anonymous['name'], $record->editor->name);
     }
 
     #[Test]
@@ -172,7 +195,7 @@ class SaveCreatedByUserTest extends TestCase
         $user->delete();
 
         $this->assertTrue($user->trashed());
-        $this->assertEquals($record->createdBy->name, $user->name);
+        $this->assertEquals($record->editor->name, $user->name);
     }
 
     #[Test]
@@ -187,7 +210,7 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->assertCount(1, $results);
         $this->assertEquals($record->id, $results->first()->id);
-        $this->assertEquals($record->createdBy, auth()->user());
-        $this->assertEquals($record->updatedBy, auth()->user());
+        $this->assertEquals($record->creator, auth()->user());
+        $this->assertEquals($record->editor, auth()->user());
     }
 }
