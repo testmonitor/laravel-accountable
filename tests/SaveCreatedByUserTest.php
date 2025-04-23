@@ -99,7 +99,7 @@ class SaveCreatedByUserTest extends TestCase
         $impersonator = User::create(['name' => 'Impersonator']);
         $record = new $this->record();
 
-        accountable()->whileActingAs($impersonator, function() use ($record) {
+        accountable()->whileActingAs($impersonator, function () use ($record) {
             $record->save();
         });
 

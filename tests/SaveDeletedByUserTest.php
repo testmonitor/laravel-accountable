@@ -74,7 +74,7 @@ class SaveDeletedByUserTest extends TestCase
         $record = new $this->record();
         $record->save();
 
-        accountable()->whileActingAs($impersonator, function() use ($record) {
+        accountable()->whileActingAs($impersonator, function () use ($record) {
             $record->delete();
         });
 
