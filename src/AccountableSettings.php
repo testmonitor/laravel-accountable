@@ -129,6 +129,7 @@ class AccountableSettings
     /**
      * Perform a callback while acting as the specified user and reset afterwards.
      *
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
      * @param callable $callable
      *
      * @return self
