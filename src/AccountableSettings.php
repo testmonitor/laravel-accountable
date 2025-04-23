@@ -127,6 +127,24 @@ class AccountableSettings
     }
 
     /**
+     * Perform a callback while acting as the specified user and reset afterwards.
+     *
+     * @param callable $callable
+     *
+     * @return self
+     */
+    public function whileActingAs(Authenticatable $user, callable $callable)
+    {
+        $this->actingAs($user);
+
+        $callable($this);
+
+        $this->reset();
+
+        return $this;
+    }
+
+    /**
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
      * @return void
      */
