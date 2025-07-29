@@ -29,8 +29,15 @@ class AccountableObserver
      */
     public function creating(Model $model)
     {
-        if ($this->settings->enabled()) {
+        if (! $this->settings->enabled()) {
+            return;
+        }
+
+        if (empty($model->getAttribute($model->getCreatedByColumn()))) {
             $model->setCreatedBy(Accountable::authenticatedUser());
+        }
+
+        if (empty($model->getAttribute($model->getUpdatedByColumn()))) {
             $model->setUpdatedBy(Accountable::authenticatedUser());
         }
     }
@@ -42,7 +49,11 @@ class AccountableObserver
      */
     public function updating(Model $model)
     {
-        if ($this->settings->enabled()) {
+        if (! $this->settings->enabled()) {
+            return;
+        }
+
+        if (! $model->isDirty($model->getUpdatedByColumn())) {
             $model->setUpdatedBy(Accountable::authenticatedUser());
         }
     }
@@ -54,11 +65,15 @@ class AccountableObserver
      */
     public function deleting(Model $model)
     {
-        if ($this->settings->enabled() && $this->modelUsesSoftDeletes($model)) {
-            $model->setDeletedBy(Accountable::authenticatedUser());
-
-            $model->saveQuietly();
+        if (! $this->settings->enabled() || ! $this->modelUsesSoftDeletes($model)) {
+            return;
         }
+
+        if (empty($model->getAttribute($model->getDeletedByColumn()))) {
+            $model->setDeletedBy(Accountable::authenticatedUser());
+        }
+
+        $model->saveQuietly();
     }
 
     /**
