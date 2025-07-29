@@ -113,6 +113,22 @@ class SaveDeletedByUserTest extends TestCase
     }
 
     #[Test]
+    public function it_will_not_save_the_user_that_deleted_a_record_when_model_doesnt_use_softdeletes()
+    {
+        $record = new class() extends Record {
+            use Accountable;
+        };
+
+        $this->actingAs(User::all()->first());
+
+        $record = new $record();
+        $record->save();
+
+        $this->assertNotEquals($record->deleted_by_user_id, User::all()->first());
+        $this->assertNull($record->deleted_by_user_id);
+    }
+
+    #[Test]
     public function it_will_save_a_specified_user_as_deleter_when_disabling_accountable()
     {
         $this->config->disable();

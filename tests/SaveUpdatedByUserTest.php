@@ -124,7 +124,7 @@ class SaveUpdatedByUserTest extends TestCase
     }
 
     #[Test]
-    public function it_will_save_a_specified_user_as_updater_when_its_already_been_set()
+    public function it_will_save_a_specified_user_as_updater_when_it_is_explicitly_set()
     {
         $user = User::first();
         $anotherUser = User::all()->last();
