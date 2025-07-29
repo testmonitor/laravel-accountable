@@ -142,6 +142,23 @@ class SaveCreatedByUserTest extends TestCase
     }
 
     #[Test]
+    public function it_will_save_a_specified_user_as_creator_when_it_is_explicitly_set()
+    {
+        $user = User::first();
+        $anotherUser = User::all()->last();
+
+        $this->actingAs($user);
+
+        $record = new $this->record();
+
+        $record->created_by_user_id = $anotherUser->id;
+        $record->save();
+
+        $this->assertNotEquals($record->created_by_user_id, $user->id);
+        $this->assertEquals($record->created_by_user_id, $anotherUser->id);
+    }
+
+    #[Test]
     public function it_will_save_a_specified_user_as_creator_when_disabling_accountable()
     {
         $this->config->disable();

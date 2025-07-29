@@ -124,6 +124,25 @@ class SaveUpdatedByUserTest extends TestCase
     }
 
     #[Test]
+    public function it_will_save_a_specified_user_as_updater_when_it_is_explicitly_set()
+    {
+        $user = User::first();
+        $anotherUser = User::all()->last();
+
+        $this->actingAs($user);
+
+        $record = new $this->record();
+        $record->save();
+
+        $record->name = 'modification';
+        $record->updated_by_user_id = $anotherUser->id;
+        $record->save();
+
+        $this->assertNotEquals($record->updated_by_user_id, $user->id);
+        $this->assertEquals($record->updated_by_user_id, $anotherUser->id);
+    }
+
+    #[Test]
     public function it_will_save_a_specified_user_as_updater_when_disabling_accountable()
     {
         $this->config->disable();
