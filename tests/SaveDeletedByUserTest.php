@@ -124,6 +124,8 @@ class SaveDeletedByUserTest extends TestCase
         $record = new $record();
         $record->save();
 
+        $record->delete();
+
         $this->assertNotEquals($record->deleted_by_user_id, User::all()->first());
         $this->assertNull($record->deleted_by_user_id);
     }
