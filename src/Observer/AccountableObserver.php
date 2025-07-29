@@ -53,7 +53,7 @@ class AccountableObserver
             return;
         }
 
-        if (! $model->isDirty($model->getUpdatedByColumn())) {
+        if ($model->isClean($model->getUpdatedByColumn())) {
             $model->setUpdatedBy(Accountable::authenticatedUser());
         }
     }
