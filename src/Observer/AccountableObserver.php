@@ -29,7 +29,7 @@ class AccountableObserver
      */
     public function creating(Model $model)
     {
-        if (! $this->settings->enabled()) {
+        if ($this->settings->disabled()) {
             return;
         }
 
@@ -49,7 +49,7 @@ class AccountableObserver
      */
     public function updating(Model $model)
     {
-        if (! $this->settings->enabled()) {
+        if ($this->settings->disabled()) {
             return;
         }
 
@@ -65,7 +65,7 @@ class AccountableObserver
      */
     public function deleting(Model $model)
     {
-        if (! $this->settings->enabled() || ! $this->modelUsesSoftDeletes($model)) {
+        if ($this->settings->disabled() || ! $this->modelUsesSoftDeletes($model)) {
             return;
         }
 
