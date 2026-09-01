@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 
-Copyright (c) 2019 Testmanagement BV <info@testmanagement.nl>
+Copyright (c) 2026 Cerios | TestMonitor BV <hello@testmonitor.com>
 
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the "Software"), to deal
