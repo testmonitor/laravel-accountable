@@ -114,7 +114,7 @@ class Accountable
         if (! $model) {
             throw new RuntimeException(
                 "Accountable could not resolve a user model for the \"{$guard}\" auth guard. " .
-                "Check your \"auth.guards\" and \"auth.providers\" configuration."
+                'Check your "auth.guards" and "auth.providers" configuration.'
             );
         }
 
