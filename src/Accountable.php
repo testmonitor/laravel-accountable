@@ -2,69 +2,138 @@
 
 namespace TestMonitor\Accountable;
 
-use Illuminate\Database\Schema\Blueprint;
+use RuntimeException;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class Accountable
 {
+    protected ?bool $enabled = null;
+
+    protected ?Authenticatable $impersonatedUser = null;
+
+    protected ?array $anonymousUser = null;
+
     /**
-     * Returns the configured authentication driver.
-     *
-     * @return string
+     * Start tracking changes.
      */
-    public static function authDriver()
+    public function enable(): void
     {
-        return config('accountable.auth_driver') ?? auth()->getDefaultDriver();
+        $this->enabled = true;
     }
 
     /**
-     * Returns the current user, based on the configured authentication driver.
-     *
-     * @return \Illuminate\Contracts\Auth\Authenticatable|\Illuminate\Database\Eloquent\Model|null
+     * Stop tracking changes.
      */
-    public static function authenticatedUser()
+    public function disable(): void
     {
-        return accountable()->impersonatedUser() ?? auth()->guard(self::authDriver())->user();
+        $this->enabled = false;
+    }
+
+    /**
+     * Whether Accountable is currently tracking changes.
+     */
+    public static function enabled(): bool
+    {
+        return accountable()->enabled ?? (bool) config('accountable.enabled', true);
+    }
+
+    /**
+     * Whether Accountable is currently not tracking changes.
+     */
+    public static function disabled(): bool
+    {
+        return ! static::enabled();
+    }
+
+    /**
+     * Override user identification with the given user.
+     */
+    public function actingAs(Authenticatable $user): void
+    {
+        $this->impersonatedUser = $user;
+    }
+
+    /**
+     * Perform a callback while acting as the given user, then reset.
+     */
+    public function whileActingAs(Authenticatable $user, callable $callback): mixed
+    {
+        $this->actingAs($user);
+
+        try {
+            return $callback($this);
+        } finally {
+            $this->reset();
+        }
+    }
+
+    /**
+     * Stop impersonating.
+     */
+    public function reset(): void
+    {
+        $this->impersonatedUser = null;
+    }
+
+    /**
+     * The user currently being impersonated, if any.
+     */
+    public function user(): ?Authenticatable
+    {
+        return $this->impersonatedUser;
+    }
+
+    /**
+     * Returns the configured authentication driver.
+     */
+    public static function authDriver(): string
+    {
+        return config('accountable.auth_driver') ?? config('auth.defaults.guard');
+    }
+
+    /**
+     * Returns the current user, based on impersonation or the configured authentication driver.
+     */
+    public static function authenticatedUser(): ?Authenticatable
+    {
+        return accountable()->user() ?? auth()->guard(static::authDriver())->user();
     }
 
     /**
      * Returns the user model, based on the configured authentication driver.
      *
-     * @return string
+     * @throws \RuntimeException when the guard has no configured user model
      */
-    public static function userModel()
+    public static function userModel(): string
     {
-        $guard = self::authDriver();
+        $guard = static::authDriver();
+        $provider = config("auth.guards.{$guard}.provider");
 
-        return collect(config('auth.guards'))
-            ->map(fn ($guard) => config("auth.providers.{$guard['provider']}.model"))
-            ->get($guard);
-    }
+        $model = $provider ? config("auth.providers.{$provider}.model") : null;
 
-    /**
-     * Add accountable.column_names to the table, including indexes.
-     *
-     * @param \Illuminate\Database\Schema\Blueprint $table
-     * @param bool $usesSoftDeletes
-     */
-    public static function columns(Blueprint $table, bool $usesSoftDeletes = true): void
-    {
-        self::addColumn($table, config('accountable.column_names.created_by'));
-        self::addColumn($table, config('accountable.column_names.updated_by'));
-
-        if ($usesSoftDeletes) {
-            self::addColumn($table, config('accountable.column_names.deleted_by'));
+        if (! $model) {
+            throw new RuntimeException(
+                "Accountable could not resolve a user model for the \"{$guard}\" auth guard. " .
+                'Check your "auth.guards" and "auth.providers" configuration.'
+            );
         }
+
+        return $model;
     }
 
     /**
-     * Add a single Accountable column to the table. Also creates an index.
-     *
-     * @param \Illuminate\Database\Schema\Blueprint $table
-     * @param string $name
+     * Override the fallback user attributes for unauthenticated activity.
      */
-    public static function addColumn(Blueprint $table, string $name): void
+    public function setAnonymousUser(array $user): void
     {
-        $table->unsignedInteger($name)->nullable();
-        $table->index($name);
+        $this->anonymousUser = $user;
+    }
+
+    /**
+     * The fallback user attributes for unauthenticated activity, if configured.
+     */
+    public static function anonymousUser(): ?array
+    {
+        return accountable()->anonymousUser ?? config('accountable.anonymous');
     }
 }

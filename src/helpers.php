@@ -1,10 +1,10 @@
 <?php
 
-use TestMonitor\Accountable\AccountableSettings;
+use TestMonitor\Accountable\Accountable;
 
 if (! function_exists('accountable')) {
-    function accountable(): AccountableSettings
+    function accountable(): Accountable
     {
-        return app()->make(AccountableSettings::class);
+        return app(Accountable::class);
     }
 }

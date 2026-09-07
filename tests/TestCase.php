@@ -2,9 +2,9 @@
 
 namespace TestMonitor\Accountable\Test;
 
-use TestMonitor\Accountable\Accountable;
 use Illuminate\Database\Schema\Blueprint;
 use TestMonitor\Accountable\Test\Models\User;
+use TestMonitor\Accountable\AccountableColumns;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use TestMonitor\Accountable\AccountableServiceProvider;
 
@@ -44,7 +44,7 @@ abstract class TestCase extends OrchestraTestCase
             $table->increments('id');
             $table->string('name')->default('');
 
-            Accountable::columns($table, $withSoftDeletes); // without SoftDeletes
+            AccountableColumns::add($table, $withSoftDeletes);
 
             if ($withSoftDeletes) {
                 $table->softDeletes();
