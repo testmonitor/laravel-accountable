@@ -43,7 +43,7 @@ final class SaveDeletedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->deleted_by_user_id, User::first()->id);
         $this->assertEquals($record->deleter->name, User::first()->name);
-        $this->assertInstanceOf(User::first()::class, $record->deleter);
+        $this->assertInstanceOf(User::class, $record->deleter);
     }
 
     #[Test]

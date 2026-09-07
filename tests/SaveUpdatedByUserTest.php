@@ -45,7 +45,7 @@ final class SaveUpdatedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->updated_by_user_id, User::first()->id);
         $this->assertEquals($record->editor->name, User::first()->name);
-        $this->assertInstanceOf(User::first()::class, $record->editor);
+        $this->assertInstanceOf(User::class, $record->editor);
     }
 
     #[Test]
