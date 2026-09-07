@@ -222,4 +222,17 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertEquals($record->creator, auth()->user());
         $this->assertEquals($record->editor, auth()->user());
     }
+
+    #[Test]
+    public function it_will_retrieve_anonymous_records_when_calling_mine_without_an_authenticated_user()
+    {
+        $record = new $this->record();
+        $record->save();
+
+        $results = (new $this->record())->mine()->get();
+
+        $this->assertNull($record->created_by_user_id);
+        $this->assertCount(1, $results);
+        $this->assertEquals($record->id, $results->first()->id);
+    }
 }
