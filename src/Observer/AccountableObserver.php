@@ -4,32 +4,16 @@ namespace TestMonitor\Accountable\Observer;
 
 use Illuminate\Database\Eloquent\Model;
 use TestMonitor\Accountable\Accountable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use TestMonitor\Accountable\AccountableSettings;
+use TestMonitor\Accountable\Support\Models;
 
 class AccountableObserver
 {
     /**
-     * @var \TestMonitor\Accountable\AccountableSettings
-     */
-    protected $settings;
-
-    /**
-     * AccountableObserver constructor.
-     */
-    public function __construct()
-    {
-        $this->settings = app()->make(AccountableSettings::class);
-    }
-
-    /**
      * Store the user creating a record.
-     *
-     * @param \Illuminate\Database\Eloquent\Model $model
      */
-    public function creating(Model $model)
+    public function creating(Model $model): void
     {
-        if ($this->settings->disabled()) {
+        if (! Accountable::enabled()) {
             return;
         }
 
@@ -44,12 +28,10 @@ class AccountableObserver
 
     /**
      * Store the user updating a record.
-     *
-     * @param \Illuminate\Database\Eloquent\Model $model
      */
-    public function updating(Model $model)
+    public function updating(Model $model): void
     {
-        if ($this->settings->disabled()) {
+        if (! Accountable::enabled()) {
             return;
         }
 
@@ -60,12 +42,10 @@ class AccountableObserver
 
     /**
      * Store the user deleting a record.
-     *
-     * @param \Illuminate\Database\Eloquent\Model $model
      */
-    public function deleting(Model $model)
+    public function deleting(Model $model): void
     {
-        if ($this->settings->disabled() || ! $this->modelUsesSoftDeletes($model)) {
+        if (! Accountable::enabled() || ! Models::usesSoftDeletes($model)) {
             return;
         }
 
@@ -74,17 +54,5 @@ class AccountableObserver
         }
 
         $model->saveQuietly();
-    }
-
-    /**
-     * Determines if the model uses soft deletes.
-     *
-     * @param \Illuminate\Database\Eloquent\Model $model
-     *
-     * @return bool
-     */
-    protected function modelUsesSoftDeletes(Model $model): bool
-    {
-        return collect(class_uses($model))->contains(SoftDeletes::class);
     }
 }

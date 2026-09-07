@@ -6,7 +6,6 @@ use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
 use TestMonitor\Accountable\Traits\Accountable;
-use TestMonitor\Accountable\AccountableSettings;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 
 class SaveUpdatedByUserTest extends TestCase
@@ -15,11 +14,6 @@ class SaveUpdatedByUserTest extends TestCase
      * @var \TestMonitor\Accountable\Test\Models\Record
      */
     protected $record;
-
-    /**
-     * @var AccountableSettings
-     */
-    protected $config;
 
     public function setUp(): void
     {
@@ -30,8 +24,6 @@ class SaveUpdatedByUserTest extends TestCase
         $this->record = new class() extends Record {
             use Accountable;
         };
-
-        $this->config = app()->make(AccountableSettings::class);
     }
 
     #[Test]
@@ -49,7 +41,6 @@ class SaveUpdatedByUserTest extends TestCase
 
         $this->assertEquals($record->updated_by_user_id, User::first()->id);
         $this->assertEquals($record->editor->name, User::first()->name);
-        $this->assertEquals($record->updatedBy->name, User::first()->name);
         $this->assertInstanceOf(get_class(User::first()), $record->editor);
     }
 
@@ -116,7 +107,7 @@ class SaveUpdatedByUserTest extends TestCase
 
         $anonymous = ['name' => 'Mrs Miggins'];
 
-        $this->config->setAnonymousUser($anonymous);
+        accountable()->setAnonymousUser($anonymous);
 
         $this->assertNull($record->updated_by_user_id);
         $this->assertInstanceOf(User::class, $record->editor);
@@ -145,7 +136,7 @@ class SaveUpdatedByUserTest extends TestCase
     #[Test]
     public function it_will_save_a_specified_user_as_updater_when_disabling_accountable()
     {
-        $this->config->disable();
+        accountable()->disable();
 
         $user = User::first();
         $anotherUser = User::all()->last();
@@ -209,5 +200,46 @@ class SaveUpdatedByUserTest extends TestCase
 
         $this->assertTrue($user->trashed());
         $this->assertEquals($record->editor->name, $user->name);
+    }
+
+    #[Test]
+    public function it_will_update_the_editor_using_touch_editor()
+    {
+        $this->actingAs(User::all()->last());
+
+        $record = new $this->record();
+        $record->save();
+
+        $editor = User::first();
+        $this->actingAs($editor);
+
+        $this->assertTrue($record->touchEditor());
+
+        $this->assertEquals($record->updated_by_user_id, $editor->id);
+        $this->assertEquals($record->editor->name, $editor->name);
+    }
+
+    #[Test]
+    public function it_will_update_the_editor_quietly_without_raising_events()
+    {
+        $this->actingAs(User::all()->last());
+
+        $record = new $this->record();
+        $record->save();
+
+        $eventsFired = false;
+
+        $record::updating(function () use (&$eventsFired) {
+            $eventsFired = true;
+        });
+
+        $editor = User::first();
+        $this->actingAs($editor);
+
+        $this->assertTrue($record->touchQuietlyWithEditor('name'));
+
+        $this->assertFalse($eventsFired);
+        $this->assertEquals($record->updated_by_user_id, $editor->id);
+        $this->assertEquals($record->editor->name, $editor->name);
     }
 }

@@ -66,7 +66,7 @@ will not be handled by Accountable.*
 The migration helper simplifies the process of adding columns to your migration:
 
 ```php
-use TestMonitor\Accountable\Accountable;
+use TestMonitor\Accountable\AccountableColumns;
 
 class CreateProjectsTable extends Migration
 {
@@ -80,13 +80,13 @@ class CreateProjectsTable extends Migration
             $table->softDeletes();
 
             // This will add the required columns
-            Accountable::columns($table);
+            AccountableColumns::add($table);
         });
     }
 }
 ```
 
-Tip: if you do not use soft-deletes on your model, use `Accountable::columns($table, false)` to prevent
+Tip: if you do not use soft-deletes on your model, use `AccountableColumns::add($table, usesSoftDeletes: false)` to prevent
 the helper from adding a *deleted_by_user_id* column.
 
 ### Using the Trait
@@ -170,15 +170,13 @@ Model::mine()->get();
 
 In some cases, you don't want to automatically save the user along
 with the model (for example: when seeding test data). You can disable
-accountable by using the `disableUserLogging` method.
+accountable altogether through the `disable` method:
 
 ```php
-$project = new Project(['name' => 'Do not track me']);
-$project->disableUserLogging()->save();
+accountable()->disable();
 ```
 
-If you want to re-enable accountable, simply use the `enableUserLogging`
-method afterwards.
+Re-enable it afterwards using the `enable` method.
 
 ### Impersonation
 
@@ -190,7 +188,14 @@ user identification with the `actingAs` method:
 accountable()->actingAs($event->causer);
 ```
 
-You can end the impersonation by calling the `reset` method.
+You can end the impersonation by calling the `reset` method, or scope it
+to a callback using `whileActingAs`:
+
+```php
+accountable()->whileActingAs($event->causer, function () {
+    // ... runs as $event->causer, then automatically resets
+});
+```
 
 ## Tests
 
@@ -202,7 +207,7 @@ $ vendor/bin/phpunit
 
 ## Changelog
 
-Refer to [CHANGELOG](CHANGELOG.md) for more information.
+Refer to [CHANGELOG](CHANGELOG.md) for more information. If you're upgrading to a new major version, check [UPGRADE](UPGRADE.md) for breaking changes.
 
 ## Contributing
 

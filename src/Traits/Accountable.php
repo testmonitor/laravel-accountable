@@ -4,100 +4,58 @@ namespace TestMonitor\Accountable\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use TestMonitor\Accountable\Support\Models;
+use TestMonitor\Accountable\AccountableColumns;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use TestMonitor\Accountable\Observer\AccountableObserver;
 use TestMonitor\Accountable\Accountable as AccountableService;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Model
+ */
 trait Accountable
 {
-    /**
-     * Boot the accountable trait for a model.
-     *
-     * @return void
-     */
     public static function bootAccountable(): void
     {
-        static::observe(new AccountableObserver);
+        static::whenBooted(fn () => static::observe(AccountableObserver::class));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function creator(): BelongsTo
     {
-        $relation = $this->belongsTo(AccountableService::userModel(), accountable()->createdByColumn())
-                         ->withDefault(accountable()->anonymousUser());
-
-        return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
+        return $this->accountableRelation($this->getCreatedByColumn());
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function editor(): BelongsTo
     {
-        $relation = $this->belongsTo(AccountableService::userModel(), accountable()->updatedByColumn())
-                         ->withDefault(accountable()->anonymousUser());
-
-        return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
+        return $this->accountableRelation($this->getUpdatedByColumn());
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function deleter(): BelongsTo
     {
-        $relation = $this->belongsTo(AccountableService::userModel(), accountable()->deletedByColumn())
-                         ->withDefault(accountable()->anonymousUser());
+        return $this->accountableRelation($this->getDeletedByColumn());
+    }
+
+    /**
+     * Build the "created/updated/deleted by" relation for the given column.
+     */
+    protected function accountableRelation(string $column): BelongsTo
+    {
+        $relation = $this->belongsTo(AccountableService::userModel(), $column)
+                         ->withDefault(AccountableService::anonymousUser());
 
         return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
     }
 
     /**
-     * Determines if the user model support soft deleting.
-     *
-     * @return bool
+     * Determines if the user model supports soft deleting.
      */
     protected function userModelUsesSoftDeletes(): bool
     {
-        return in_array(SoftDeletes::class, class_uses_recursive(AccountableService::userModel()));
-    }
-
-    /**
-     * @deprecated
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function createdBy(): BelongsTo
-    {
-        return $this->creator();
-    }
-
-    /**
-     * @deprecated
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function updatedBy(): BelongsTo
-    {
-        return $this->editor();
-    }
-
-    /**
-     * @deprecated
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function deletedBy(): BelongsTo
-    {
-        return $this->deleter();
+        return Models::usesSoftDeletes(AccountableService::userModel());
     }
 
     /**
      * Update the model's editor.
-     *
-     * @return bool
      */
     public function touchEditor(): bool
     {
@@ -108,25 +66,16 @@ trait Accountable
 
     /**
      * Update the model's update timestamp and editor without raising any events.
-     *
-     * @param string|null $attribute
-     *
-     * @return bool
      */
-    public function touchQuietlyWithEditor($attribute = null): bool
+    public function touchQuietlyWithEditor(?string $attribute = null): bool
     {
-        return $this->withoutEvents(function () use ($attribute) {
-            return $this->touch($attribute) && $this->touchEditor();
-        });
+        return $this->withoutEvents(fn () => $this->touch($attribute) && $this->touchEditor());
     }
 
     /**
      * Set the value of the "created by" attribute.
-     *
-     * @param mixed $value
-     * @return $this
      */
-    public function setCreatedBy($value): static
+    public function setCreatedBy(mixed $value): static
     {
         $this->{$this->getCreatedByColumn()} = $value instanceof Model ? $value->getKey() : $value;
 
@@ -135,12 +84,8 @@ trait Accountable
 
     /**
      * Set the value of the "updated by" attribute.
-     *
-     * @param mixed $value
-     *
-     * @return $this
      */
-    public function setUpdatedBy($value): static
+    public function setUpdatedBy(mixed $value): static
     {
         $this->{$this->getUpdatedByColumn()} = $value instanceof Model ? $value->getKey() : $value;
 
@@ -149,12 +94,8 @@ trait Accountable
 
     /**
      * Set the value of the "deleted by" attribute.
-     *
-     * @param mixed $value
-     *
-     * @return $this
      */
-    public function setDeletedBy($value): static
+    public function setDeletedBy(mixed $value): static
     {
         $this->{$this->getDeletedByColumn()} = $value instanceof Model ? $value->getKey() : $value;
 
@@ -163,81 +104,59 @@ trait Accountable
 
     /**
      * Get the name of the "created by" column.
-     *
-     * @return string
      */
     public function getCreatedByColumn(): string
     {
-        return accountable()->createdByColumn();
+        return AccountableColumns::createdByColumn();
     }
 
     /**
      * Get the name of the "updated by" column.
-     *
-     * @return string
      */
     public function getUpdatedByColumn(): string
     {
-        return accountable()->updatedByColumn();
+        return AccountableColumns::updatedByColumn();
     }
 
     /**
      * Get the name of the "deleted by" column.
-     *
-     * @return string
      */
     public function getDeletedByColumn(): string
     {
-        return accountable()->deletedByColumn();
+        return AccountableColumns::deletedByColumn();
     }
 
     /**
      * Scope a query to only include records created by a given user.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Model $user
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeOnlyCreatedBy(Builder $query, Model $user)
+    public function scopeOnlyCreatedBy(Builder $query, Model $user): Builder
     {
         return $query->where($this->getCreatedByColumn(), $user->getKey());
     }
 
     /**
      * Scope a query to only include records created by the current logged in user.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeMine(Builder $query)
+    public function scopeMine(Builder $query): Builder
     {
         return $query->where(
             $this->getCreatedByColumn(),
-            AccountableService::authenticatedUser()?->getKey()
+            AccountableService::authenticatedUser()?->getAuthIdentifier()
         );
     }
 
     /**
      * Scope a query to only include records updated by a given user.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Model $user
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeOnlyUpdatedBy(Builder $query, Model $user)
+    public function scopeOnlyUpdatedBy(Builder $query, Model $user): Builder
     {
         return $query->where($this->getUpdatedByColumn(), $user->getKey());
     }
 
     /**
      * Scope a query to only include records deleted by a given user.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param \Illuminate\Database\Eloquent\Model $user
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeOnlyDeletedBy(Builder $query, Model $user)
+    public function scopeOnlyDeletedBy(Builder $query, Model $user): Builder
     {
         return $query->where($this->getDeletedByColumn(), $user->getKey());
     }

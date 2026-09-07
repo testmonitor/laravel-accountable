@@ -9,7 +9,7 @@ class AccountableServiceProvider extends ServiceProvider
     /**
      * Perform post-registration booting of services.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             dirname(__DIR__) . '/config/accountable.php' => config_path('accountable.php'),
@@ -21,8 +21,8 @@ class AccountableServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton(AccountableSettings::class);
+        $this->app->singleton(Accountable::class);
     }
 }

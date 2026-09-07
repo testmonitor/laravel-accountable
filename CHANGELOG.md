@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [11.0.0] - 2026-09-06
+### Added
+- Support for Laravel 13.0
+- Support for PHPUnit 13.0
+
+### Updated
+- Dropped support for anything before PHP 8.4
+- Dropped support for anything before Laravel 12.8
+- Renamed the migration helper to `AccountableColumns::add()` (previously `Accountable::columns()`)
+- Migration helper now generates `foreignId` columns instead of `unsignedInteger`
+- Removed AccountableSettings; enabling/disabling and the anonymous user are now controlled through `accountable()->enable()`, `disable()` and `setAnonymousUser()`
+- Removed deprecated createdBy, updatedBy and deletedBy methods (use creator, editor and deleter)
+- whileActingAs now returns the callback's result and always resets, even if the callback throws
+- Accountable::userModel() now throws a RuntimeException when the auth guard has no configured user model, instead of silently returning null
+
 ## [10.1.0] - 2025-09-16
 ### Added
 - Prevent overriding userstamp when it’s already been set

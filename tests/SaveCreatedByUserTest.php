@@ -6,7 +6,6 @@ use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
 use TestMonitor\Accountable\Traits\Accountable;
-use TestMonitor\Accountable\AccountableSettings;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 
 class SaveCreatedByUserTest extends TestCase
@@ -15,11 +14,6 @@ class SaveCreatedByUserTest extends TestCase
      * @var \TestMonitor\Accountable\Test\Models\Record
      */
     protected $record;
-
-    /**
-     * @var AccountableSettings
-     */
-    protected $config;
 
     public function setUp(): void
     {
@@ -30,8 +24,6 @@ class SaveCreatedByUserTest extends TestCase
         $this->record = new class() extends Record {
             use Accountable;
         };
-
-        $this->config = app()->make(AccountableSettings::class);
     }
 
     #[Test]
@@ -131,7 +123,7 @@ class SaveCreatedByUserTest extends TestCase
 
         $anonymous = ['name' => 'Birmingham Bertie'];
 
-        $this->config->setAnonymousUser($anonymous);
+        accountable()->setAnonymousUser($anonymous);
 
         $this->assertNull($record->created_by_user_id);
         $this->assertNull($record->updated_by_user_id);
@@ -161,7 +153,7 @@ class SaveCreatedByUserTest extends TestCase
     #[Test]
     public function it_will_save_a_specified_user_as_creator_when_disabling_accountable()
     {
-        $this->config->disable();
+        accountable()->disable();
 
         $user = User::first();
         $anotherUser = User::all()->last();
