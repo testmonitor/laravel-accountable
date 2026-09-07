@@ -2,8 +2,8 @@
 
 namespace TestMonitor\Accountable;
 
-use RuntimeException;
 use Illuminate\Contracts\Auth\Authenticatable;
+use RuntimeException;
 
 class Accountable
 {
@@ -102,7 +102,7 @@ class Accountable
     /**
      * Returns the user model, based on the configured authentication driver.
      *
-     * @throws \RuntimeException when the guard has no configured user model
+     * @throws RuntimeException when the guard has no configured user model
      */
     public static function userModel(): string
     {

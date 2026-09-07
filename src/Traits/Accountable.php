@@ -2,16 +2,16 @@
 
 namespace TestMonitor\Accountable\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use TestMonitor\Accountable\Support\Models;
-use TestMonitor\Accountable\AccountableColumns;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use TestMonitor\Accountable\Observer\AccountableObserver;
 use TestMonitor\Accountable\Accountable as AccountableService;
+use TestMonitor\Accountable\AccountableColumns;
+use TestMonitor\Accountable\Observer\AccountableObserver;
+use TestMonitor\Accountable\Support\Models;
 
 /**
- * @mixin \Illuminate\Database\Eloquent\Model
+ * @mixin Model
  */
 trait Accountable
 {
@@ -41,7 +41,7 @@ trait Accountable
     protected function accountableRelation(string $column): BelongsTo
     {
         $relation = $this->belongsTo(AccountableService::userModel(), $column)
-                         ->withDefault(AccountableService::anonymousUser());
+            ->withDefault(AccountableService::anonymousUser());
 
         return $this->userModelUsesSoftDeletes() ? $relation->withTrashed() : $relation;
     }

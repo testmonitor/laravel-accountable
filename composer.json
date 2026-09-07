@@ -43,8 +43,9 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.1",
         "phpunit/phpunit": "^13.3",
-        "squizlabs/php_codesniffer": "^3.7",
-        "orchestra/testbench": "^10.0|^11.0"
+        "orchestra/testbench": "^10.0|^11.0",
+        "laravel/pint": "^1.30",
+        "squizlabs/php_codesniffer": "^4.0"
     },
     "autoload": {
         "psr-4": {

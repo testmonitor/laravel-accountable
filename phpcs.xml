@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ruleset name="eloquent-revisable">
+    <file>src/</file>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="parallel" value="75"/>
+
+    <rule ref="PSR12">
+        <!-- Allow new ClassName without parentheses -->
+        <exclude name="PSR12.Classes.ClassInstantiation.MissingParentheses"/>
+        <!-- Allow empty constructor body on one line: public function __construct(...) {} -->
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
+        <!-- Allow multiple arguments per line in a multi-line function call -->
+        <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments"/>
+    </rule>
+</ruleset>

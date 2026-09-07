@@ -2,27 +2,28 @@
 
 namespace TestMonitor\Accountable\Test;
 
-use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use TestMonitor\Accountable\Test\Models\User;
+use PHPUnit\Framework\Attributes\Test;
 use TestMonitor\Accountable\Test\Models\Record;
-use TestMonitor\Accountable\Traits\Accountable;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
+use TestMonitor\Accountable\Test\Models\User;
+use TestMonitor\Accountable\Traits\Accountable;
 
 class SaveDeletedByUserTest extends TestCase
 {
     /**
-     * @var \TestMonitor\Accountable\Test\Models\Record
+     * @var Record
      */
     protected $record;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->setUpDatabaseWithSoftDeletes();
 
-        $this->record = new class() extends Record {
+        $this->record = new class extends Record
+        {
             use Accountable, SoftDeletes;
         };
     }
@@ -33,7 +34,7 @@ class SaveDeletedByUserTest extends TestCase
         // Given
         $this->actingAs(User::all()->first());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
@@ -52,7 +53,7 @@ class SaveDeletedByUserTest extends TestCase
         $impersonator = User::create(['name' => 'Impersonator']);
         accountable()->actingAs($impersonator);
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
@@ -69,7 +70,7 @@ class SaveDeletedByUserTest extends TestCase
     {
         // Given
         $impersonator = User::create(['name' => 'Impersonator']);
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
@@ -87,7 +88,7 @@ class SaveDeletedByUserTest extends TestCase
     public function it_will_not_save_the_anonymous_user_that_deleted_a_record()
     {
         // Given
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
@@ -102,7 +103,7 @@ class SaveDeletedByUserTest extends TestCase
     public function it_will_return_a_fall_back_user_when_someone_anonymous_deleted_a_record()
     {
         // Given
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $record->delete();
@@ -122,13 +123,14 @@ class SaveDeletedByUserTest extends TestCase
     public function it_will_not_save_the_user_that_deleted_a_record_when_model_doesnt_use_softdeletes()
     {
         // Given
-        $record = new class() extends Record {
+        $record = new class extends Record
+        {
             use Accountable;
         };
 
         $this->actingAs(User::all()->first());
 
-        $record = new $record();
+        $record = new $record;
         $record->save();
 
         // When
@@ -147,7 +149,7 @@ class SaveDeletedByUserTest extends TestCase
 
         $this->actingAs(User::all()->first());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
@@ -165,19 +167,19 @@ class SaveDeletedByUserTest extends TestCase
         $this->actingAs(User::all()->last());
 
         collect(range(1, 5))->each(function () {
-            $record = new $this->record();
+            $record = new $this->record;
             $record->save();
             $record->delete();
         });
 
         $this->actingAs(User::first());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
         $record->delete();
 
         // When
-        $results = (new $this->record())->onlyDeletedBy(User::first())->withTrashed()->get();
+        $results = (new $this->record)->onlyDeletedBy(User::first())->withTrashed()->get();
 
         // Then
         $this->assertCount(1, $results);
@@ -189,13 +191,13 @@ class SaveDeletedByUserTest extends TestCase
     {
         // Given
         collect(range(1, 5))->each(function () {
-            (new $this->record())->save();
+            (new $this->record)->save();
         });
 
         $user = SoftDeletableUser::first();
         $this->actingAs($user);
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
         $record->delete();
 
