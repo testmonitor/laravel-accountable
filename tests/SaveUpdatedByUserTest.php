@@ -3,25 +3,26 @@
 namespace TestMonitor\Accountable\Test;
 
 use PHPUnit\Framework\Attributes\Test;
-use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
-use TestMonitor\Accountable\Traits\Accountable;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
+use TestMonitor\Accountable\Test\Models\User;
+use TestMonitor\Accountable\Traits\Accountable;
 
 class SaveUpdatedByUserTest extends TestCase
 {
     /**
-     * @var \TestMonitor\Accountable\Test\Models\Record
+     * @var Record
      */
     protected $record;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->setUpDatabase();
 
-        $this->record = new class() extends Record {
+        $this->record = new class extends Record
+        {
             use Accountable;
         };
     }
@@ -32,7 +33,7 @@ class SaveUpdatedByUserTest extends TestCase
         // Given
         $this->actingAs(User::all()->last());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $this->actingAs(User::first());
@@ -53,7 +54,7 @@ class SaveUpdatedByUserTest extends TestCase
         // Given
         $this->actingAs(User::all()->last());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $impersonator = User::create(['name' => 'Impersonator']);
@@ -75,7 +76,7 @@ class SaveUpdatedByUserTest extends TestCase
         // Given
         $this->actingAs(User::all()->last());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $impersonator = User::create(['name' => 'Impersonator']);
@@ -96,7 +97,7 @@ class SaveUpdatedByUserTest extends TestCase
     public function it_will_not_save_the_anonymous_user_that_updated_a_record()
     {
         // Given
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
@@ -112,7 +113,7 @@ class SaveUpdatedByUserTest extends TestCase
     public function it_will_return_a_fall_back_user_when_someone_anonymous_updated_a_record()
     {
         // Given
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $record->name = 'modification';
@@ -138,7 +139,7 @@ class SaveUpdatedByUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
@@ -162,7 +163,7 @@ class SaveUpdatedByUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $this->actingAs($anotherUser);
@@ -184,7 +185,7 @@ class SaveUpdatedByUserTest extends TestCase
         $this->actingAs(User::all()->last());
 
         collect(range(1, 5))->each(function () {
-            $record = new $this->record();
+            $record = new $this->record;
             $record->save();
             $record->name = 'modification';
             $record->save();
@@ -192,13 +193,13 @@ class SaveUpdatedByUserTest extends TestCase
 
         $this->actingAs(User::first());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
         $record->name = 'modification';
         $record->save();
 
         // When
-        $results = (new $this->record())->onlyUpdatedBy(User::first())->get();
+        $results = (new $this->record)->onlyUpdatedBy(User::first())->get();
 
         // Then
         $this->assertCount(1, $results);
@@ -210,13 +211,13 @@ class SaveUpdatedByUserTest extends TestCase
     {
         // Given
         collect(range(1, 5))->each(function () {
-            (new $this->record())->save();
+            (new $this->record)->save();
         });
 
         $user = SoftDeletableUser::first();
         $this->actingAs($user);
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
         $record->name = 'modification';
         $record->save();
@@ -235,7 +236,7 @@ class SaveUpdatedByUserTest extends TestCase
         // Given
         $this->actingAs(User::all()->last());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $editor = User::first();
@@ -255,7 +256,7 @@ class SaveUpdatedByUserTest extends TestCase
         // Given
         $this->actingAs(User::all()->last());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $eventsFired = false;

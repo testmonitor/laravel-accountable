@@ -2,8 +2,8 @@
 
 namespace TestMonitor\Accountable\Test;
 
-use RuntimeException;
 use PHPUnit\Framework\Attributes\Test;
+use RuntimeException;
 use TestMonitor\Accountable\Accountable;
 
 class ModifyStatusTest extends TestCase

@@ -3,10 +3,11 @@
 namespace TestMonitor\Accountable\Test;
 
 use Illuminate\Database\Schema\Blueprint;
-use TestMonitor\Accountable\Test\Models\User;
-use TestMonitor\Accountable\AccountableColumns;
+use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use TestMonitor\Accountable\AccountableColumns;
 use TestMonitor\Accountable\AccountableServiceProvider;
+use TestMonitor\Accountable\Test\Models\User;
 
 abstract class TestCase extends OrchestraTestCase
 {
@@ -20,7 +21,7 @@ abstract class TestCase extends OrchestraTestCase
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param Application $app
      */
     protected function getEnvironmentSetUp($app)
     {

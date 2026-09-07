@@ -57,9 +57,7 @@ class User extends Authenticatable
      *
      * @param string $value
      */
-    public function setRememberToken($value)
-    {
-    }
+    public function setRememberToken($value) {}
 
     /**
      * Get the column name for the "remember me" token.

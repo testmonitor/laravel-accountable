@@ -3,25 +3,26 @@
 namespace TestMonitor\Accountable\Test;
 
 use PHPUnit\Framework\Attributes\Test;
-use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Test\Models\Record;
-use TestMonitor\Accountable\Traits\Accountable;
 use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
+use TestMonitor\Accountable\Test\Models\User;
+use TestMonitor\Accountable\Traits\Accountable;
 
 class SaveCreatedByUserTest extends TestCase
 {
     /**
-     * @var \TestMonitor\Accountable\Test\Models\Record
+     * @var Record
      */
     protected $record;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->setUpDatabase();
 
-        $this->record = new class() extends Record {
+        $this->record = new class extends Record
+        {
             use Accountable;
         };
     }
@@ -34,7 +35,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->actingAs($user);
 
         // When
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // Then
@@ -56,7 +57,7 @@ class SaveCreatedByUserTest extends TestCase
         accountable()->actingAs($impersonator);
 
         // When
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // Then
@@ -79,7 +80,7 @@ class SaveCreatedByUserTest extends TestCase
         accountable()->reset();
 
         // When
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // Then
@@ -99,7 +100,7 @@ class SaveCreatedByUserTest extends TestCase
         $this->actingAs($user);
 
         $impersonator = User::create(['name' => 'Impersonator']);
-        $record = new $this->record();
+        $record = new $this->record;
 
         // When
         accountable()->whileActingAs($impersonator, function () use ($record) {
@@ -119,7 +120,7 @@ class SaveCreatedByUserTest extends TestCase
     public function it_will_not_save_the_anonymous_user_that_created_a_record()
     {
         // When
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // Then
@@ -133,7 +134,7 @@ class SaveCreatedByUserTest extends TestCase
     public function it_will_return_a_fall_back_user_when_someone_anonymous_created_a_record()
     {
         // Given
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         $anonymous = ['name' => 'Birmingham Bertie'];
@@ -159,7 +160,7 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $record = new $this->record();
+        $record = new $this->record;
 
         // When
         $record->created_by_user_id = $anotherUser->id;
@@ -181,7 +182,7 @@ class SaveCreatedByUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $record = new $this->record();
+        $record = new $this->record;
 
         // When
         $record->created_by_user_id = $anotherUser->id;
@@ -197,17 +198,17 @@ class SaveCreatedByUserTest extends TestCase
     {
         // Given
         collect(range(1, 5))->each(function () {
-            (new $this->record())->save();
+            (new $this->record)->save();
         });
 
         $user = User::first();
         $this->actingAs($user);
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
-        $results = (new $this->record())->onlyCreatedBy($user)->get();
+        $results = (new $this->record)->onlyCreatedBy($user)->get();
 
         // Then
         $this->assertCount(1, $results);
@@ -219,13 +220,13 @@ class SaveCreatedByUserTest extends TestCase
     {
         // Given
         collect(range(1, 5))->each(function () {
-            (new $this->record())->save();
+            (new $this->record)->save();
         });
 
         $user = SoftDeletableUser::first();
         $this->actingAs($user);
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
@@ -242,11 +243,11 @@ class SaveCreatedByUserTest extends TestCase
         // Given
         $this->actingAs(User::first());
 
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
-        $results = (new $this->record())->mine()->get();
+        $results = (new $this->record)->mine()->get();
 
         // Then
         $this->assertCount(1, $results);
@@ -259,11 +260,11 @@ class SaveCreatedByUserTest extends TestCase
     public function it_will_retrieve_anonymous_records_when_calling_mine_without_an_authenticated_user()
     {
         // Given
-        $record = new $this->record();
+        $record = new $this->record;
         $record->save();
 
         // When
-        $results = (new $this->record())->mine()->get();
+        $results = (new $this->record)->mine()->get();
 
         // Then
         $this->assertNull($record->created_by_user_id);
