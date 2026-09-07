@@ -44,7 +44,7 @@ abstract class TestCase extends OrchestraTestCase
             $table->increments('id');
             $table->string('name')->default('');
 
-            AccountableColumns::add($table, $withSoftDeletes); // without SoftDeletes
+            AccountableColumns::add($table, $withSoftDeletes);
 
             if ($withSoftDeletes) {
                 $table->softDeletes();

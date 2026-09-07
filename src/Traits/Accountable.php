@@ -135,7 +135,7 @@ trait Accountable
     }
 
     /**
-     * Scope a query to only include records created by the current logged in user.
+     * Scope a query to records created by the current user, or anonymous records when none is authenticated.
      */
     public function scopeMine(Builder $query): Builder
     {
