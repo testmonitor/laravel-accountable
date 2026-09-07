@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="eloquent-revisable">
+<ruleset name="laravel-accountable">
     <file>src/</file>
 
     <arg name="basepath" value="."/>
