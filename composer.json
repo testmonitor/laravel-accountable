@@ -15,19 +15,19 @@
     "authors": [
         {
             "name": "Thijs Kok",
-            "email": "tkok@testmonitor.com",
+            "email": "thijs.kok@cerios.com",
             "homepage": "https://www.testmonitor.com/",
             "role": "Lead Developer"
         },
         {
             "name": "Stephan Grootveld",
-            "email": "sgrootveld@testmonitor.com",
+            "email": "stephan.grootveld@cerios.com",
             "homepage": "https://www.testmonitor.com/",
             "role": "Developer"
         },
         {
             "name": "Frank Keulen",
-            "email": "fkeulen@testmonitor.com",
+            "email": "frank.keulen@cerios.com",
             "homepage": "https://www.testmonitor.com/",
             "role": "Developer"
         }
