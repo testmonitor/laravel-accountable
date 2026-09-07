@@ -11,6 +11,9 @@ class Accountable
 
     protected ?Authenticatable $impersonatedUser = null;
 
+    /**
+     * @var array<string, mixed>|null
+     */
     protected ?array $anonymousUser = null;
 
     /**
@@ -123,6 +126,8 @@ class Accountable
 
     /**
      * Override the fallback user attributes for unauthenticated activity.
+     *
+     * @param array<string, mixed> $user
      */
     public function setAnonymousUser(array $user): void
     {
@@ -131,6 +136,8 @@ class Accountable
 
     /**
      * The fallback user attributes for unauthenticated activity, if configured.
+     *
+     * @return array<string, mixed>|null
      */
     public static function anonymousUser(): ?array
     {

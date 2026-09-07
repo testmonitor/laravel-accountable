@@ -8,7 +8,7 @@ use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Traits\Accountable;
 
-class SaveCreatedByUserTest extends TestCase
+final class SaveCreatedByUserTest extends TestCase
 {
     /**
      * @var Record
@@ -45,8 +45,8 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertEquals($record->editor->name, User::first()->name);
         $this->assertEquals($record->creator->name, $user->name);
         $this->assertEquals($record->editor->name, User::first()->name);
-        $this->assertInstanceOf(get_class($user), $record->creator);
-        $this->assertInstanceOf(get_class($user), $record->editor);
+        $this->assertInstanceOf($user::class, $record->creator);
+        $this->assertInstanceOf($user::class, $record->editor);
     }
 
     #[Test]
@@ -63,8 +63,8 @@ class SaveCreatedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->created_by_user_id, $impersonator->id);
         $this->assertEquals($record->creator->name, $impersonator->name);
-        $this->assertInstanceOf(get_class($impersonator), $record->creator);
-        $this->assertInstanceOf(get_class($impersonator), $record->editor);
+        $this->assertInstanceOf($impersonator::class, $record->creator);
+        $this->assertInstanceOf($impersonator::class, $record->editor);
     }
 
     #[Test]
@@ -88,8 +88,8 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertEquals($record->updated_by_user_id, User::first()->id);
         $this->assertEquals($record->creator->name, $user->name);
         $this->assertEquals($record->editor->name, User::first()->name);
-        $this->assertInstanceOf(get_class($user), $record->creator);
-        $this->assertInstanceOf(get_class($user), $record->editor);
+        $this->assertInstanceOf($user::class, $record->creator);
+        $this->assertInstanceOf($user::class, $record->editor);
     }
 
     #[Test]
@@ -112,8 +112,8 @@ class SaveCreatedByUserTest extends TestCase
         $this->assertEquals($record->updated_by_user_id, $impersonator->id);
         $this->assertEquals($record->creator->name, $impersonator->name);
         $this->assertEquals($record->editor->name, $impersonator->name);
-        $this->assertInstanceOf(get_class($impersonator), $record->creator);
-        $this->assertInstanceOf(get_class($impersonator), $record->editor);
+        $this->assertInstanceOf($impersonator::class, $record->creator);
+        $this->assertInstanceOf($impersonator::class, $record->editor);
     }
 
     #[Test]
@@ -252,8 +252,8 @@ class SaveCreatedByUserTest extends TestCase
         // Then
         $this->assertCount(1, $results);
         $this->assertEquals($record->id, $results->first()->id);
-        $this->assertEquals($record->creator, auth()->user());
-        $this->assertEquals($record->editor, auth()->user());
+        $this->assertEquals($record->creator, auth()->guard()->user());
+        $this->assertEquals($record->editor, auth()->guard()->user());
     }
 
     #[Test]

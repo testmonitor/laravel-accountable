@@ -8,7 +8,7 @@ use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Traits\Accountable;
 
-class SaveUpdatedByUserTest extends TestCase
+final class SaveUpdatedByUserTest extends TestCase
 {
     /**
      * @var Record
@@ -45,7 +45,7 @@ class SaveUpdatedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->updated_by_user_id, User::first()->id);
         $this->assertEquals($record->editor->name, User::first()->name);
-        $this->assertInstanceOf(get_class(User::first()), $record->editor);
+        $this->assertInstanceOf(User::first()::class, $record->editor);
     }
 
     #[Test]
@@ -67,7 +67,7 @@ class SaveUpdatedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->updated_by_user_id, $impersonator->id);
         $this->assertEquals($record->editor->name, $impersonator->name);
-        $this->assertInstanceOf(get_class($impersonator), $record->editor);
+        $this->assertInstanceOf($impersonator::class, $record->editor);
     }
 
     #[Test]
@@ -90,7 +90,7 @@ class SaveUpdatedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->updated_by_user_id, $impersonator->id);
         $this->assertEquals($record->editor->name, $impersonator->name);
-        $this->assertInstanceOf(get_class($impersonator), $record->editor);
+        $this->assertInstanceOf($impersonator::class, $record->editor);
     }
 
     #[Test]
@@ -165,6 +165,7 @@ class SaveUpdatedByUserTest extends TestCase
 
         $record = new $this->record;
         $record->save();
+        $this->assertInstanceOf(User::class, $anotherUser);
 
         $this->actingAs($anotherUser);
 

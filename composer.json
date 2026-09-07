@@ -44,7 +44,9 @@
         "phpunit/phpunit": "^13.3",
         "orchestra/testbench": "^10.0|^11.0",
         "laravel/pint": "^1.30",
-        "squizlabs/php_codesniffer": "^4.0"
+        "squizlabs/php_codesniffer": "^4.0",
+        "rector/rector": "^2.6",
+        "larastan/larastan": "^3.11"
     },
     "autoload": {
         "psr-4": {

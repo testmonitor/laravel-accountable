@@ -42,6 +42,16 @@ jobs:
           command: |
             mkdir -p ./logs/phpcs
             vendor/bin/phpcs -v --report=junit --report-file=logs/phpcs/junit.xml src/
+      - run:
+          name: Rector
+          command: |
+            mkdir -p ./logs/rector
+            vendor/bin/rector process --dry-run --no-ansi --no-progress-bar --rules-summary > logs/rector/rector.log
+      - run:
+          name: PHPStan
+          command: |
+            mkdir -p ./logs/phpstan
+            vendor/bin/phpstan analyse --memory-limit=1G --no-progress --error-format=junit > logs/phpstan/junit.xml
 
       - store_artifacts:
           path: ./logs/pint
