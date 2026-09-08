@@ -33,7 +33,7 @@ abstract class TestCase extends OrchestraTestCase
         ]);
         $app['config']->set('auth.providers.users', [
             'driver' => 'eloquent',
-            'model' => 'TestMonitor\Accountable\Test\Models\User',
+            'model' => User::class,
         ]);
     }
 

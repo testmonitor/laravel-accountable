@@ -9,7 +9,7 @@ use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
 use TestMonitor\Accountable\Test\Models\User;
 use TestMonitor\Accountable\Traits\Accountable;
 
-class SaveDeletedByUserTest extends TestCase
+final class SaveDeletedByUserTest extends TestCase
 {
     /**
      * @var Record
@@ -43,7 +43,7 @@ class SaveDeletedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->deleted_by_user_id, User::first()->id);
         $this->assertEquals($record->deleter->name, User::first()->name);
-        $this->assertInstanceOf(get_class(User::first()), $record->deleter);
+        $this->assertInstanceOf(User::class, $record->deleter);
     }
 
     #[Test]
@@ -62,7 +62,7 @@ class SaveDeletedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->deleted_by_user_id, $impersonator->id);
         $this->assertEquals($record->deleter->name, $impersonator->name);
-        $this->assertInstanceOf(get_class($impersonator), $record->deleter);
+        $this->assertInstanceOf($impersonator::class, $record->deleter);
     }
 
     #[Test]
@@ -81,7 +81,7 @@ class SaveDeletedByUserTest extends TestCase
         // Then
         $this->assertEquals($record->deleted_by_user_id, $impersonator->id);
         $this->assertEquals($record->deleter->name, $impersonator->name);
-        $this->assertInstanceOf(get_class($impersonator), $record->deleter);
+        $this->assertInstanceOf($impersonator::class, $record->deleter);
     }
 
     #[Test]

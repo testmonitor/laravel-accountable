@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 use TestMonitor\Accountable\Accountable;
 
-class ModifyStatusTest extends TestCase
+final class ModifyStatusTest extends TestCase
 {
     #[Test]
     public function it_will_enable_accountable()
