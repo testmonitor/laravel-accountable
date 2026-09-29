@@ -48,6 +48,11 @@
         "rector/rector": "^2.6",
         "larastan/larastan": "^3.11"
     },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
     "autoload": {
         "psr-4": {
             "TestMonitor\\Accountable\\": "src"
@@ -68,9 +73,20 @@
             ]
         }
     },
-
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "analyse": "vendor/bin/phpstan analyse",
+        "style": "vendor/bin/pint --test",
+        "sniff": "vendor/bin/phpcs",
+        "refactor": "vendor/bin/rector process --dry-run",
+        "test": "vendor/bin/phpunit --no-coverage",
+        "check": [
+            "@style",
+            "@sniff",
+            "@analyse",
+            "@refactor",
+            "@test"
+        ]
     },
+    "prefer-stable": true,
     "license": "MIT"
 }
