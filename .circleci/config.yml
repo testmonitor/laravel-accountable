@@ -46,7 +46,7 @@ jobs:
           name: Rector
           command: |
             mkdir -p ./logs/rector
-            vendor/bin/rector process --dry-run --no-ansi --no-progress-bar --rules-summary > logs/rector/rector.log
+            vendor/bin/rector process --dry-run --no-ansi --no-progress-bar > logs/rector/rector.log
       - run:
           name: PHPStan
           command: |
