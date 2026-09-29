@@ -12,7 +12,7 @@ class AccountableServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            dirname(__DIR__) . '/config/accountable.php' => config_path('accountable.php'),
+            __DIR__ . '/../config/accountable.php' => config_path('accountable.php'),
         ], 'config');
 
         $this->mergeConfigFrom(__DIR__ . '/../config/accountable.php', 'accountable');
