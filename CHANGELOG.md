@@ -4,14 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [11.0.0] - 2026-09-06
+## [11.0.0] - TBD
 ### Added
 - Support for Laravel 13.0
 - Support for PHPUnit 13.0
+- Added Larastan
+- Added Rector
+- Added Pint
 
 ### Updated
 - Dropped support for anything before PHP 8.4
 - Dropped support for anything before Laravel 12.8
+- Removed PHP-CS-Fixer (replaced by Pint)
 - Renamed the migration helper to `AccountableColumns::add()` (previously `Accountable::columns()`)
 - Migration helper now generates `foreignId` columns instead of `unsignedInteger`
 - Removed AccountableSettings; enabling/disabling and the anonymous user are now controlled through `accountable()->enable()`, `disable()` and `setAnonymousUser()`
