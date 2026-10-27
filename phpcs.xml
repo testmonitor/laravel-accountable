@@ -12,6 +12,8 @@
         <!-- Allow empty constructor body on one line: public function __construct(...) {} -->
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
         <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore"/>
+        <!-- Allow opening brace on the same line for class declarations -->
+        <exclude name="PSR2.Classes.ClassDeclaration.OpenBraceNewLine"/>
         <!-- Allow multiple arguments per line in a multi-line function call -->
         <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments"/>
     </rule>
