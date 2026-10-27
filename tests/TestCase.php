@@ -1,13 +1,13 @@
 <?php
 
-namespace TestMonitor\Accountable\Test;
+namespace TestMonitor\Accountable\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use TestMonitor\Accountable\AccountableColumns;
 use TestMonitor\Accountable\AccountableServiceProvider;
-use TestMonitor\Accountable\Test\Models\User;
+use TestMonitor\Accountable\Tests\Models\User;
 
 abstract class TestCase extends OrchestraTestCase
 {
