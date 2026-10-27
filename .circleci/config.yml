@@ -59,6 +59,12 @@ jobs:
       - store_artifacts:
           path: ./logs/phpcs
           destination: phpcs
+      - store_artifacts:
+          path: ./logs/rector
+          destination: rector
+      - store_artifacts:
+          path: ./logs/phpstan
+          destination: phpstan
       - store_test_results:
           path: ./logs
 
