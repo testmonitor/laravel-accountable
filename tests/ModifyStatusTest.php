@@ -1,6 +1,6 @@
 <?php
 
-namespace TestMonitor\Accountable\Test;
+namespace TestMonitor\Accountable\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;

@@ -63,7 +63,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "TestMonitor\\Accountable\\Test\\": "tests"
+            "TestMonitor\\Accountable\\Tests\\": "tests"
         }
     },
     "extra": {

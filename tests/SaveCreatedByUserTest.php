@@ -1,11 +1,11 @@
 <?php
 
-namespace TestMonitor\Accountable\Test;
+namespace TestMonitor\Accountable\Tests;
 
 use PHPUnit\Framework\Attributes\Test;
-use TestMonitor\Accountable\Test\Models\Record;
-use TestMonitor\Accountable\Test\Models\SoftDeletableUser;
-use TestMonitor\Accountable\Test\Models\User;
+use TestMonitor\Accountable\Tests\Models\Record;
+use TestMonitor\Accountable\Tests\Models\SoftDeletableUser;
+use TestMonitor\Accountable\Tests\Models\User;
 use TestMonitor\Accountable\Traits\Accountable;
 
 final class SaveCreatedByUserTest extends TestCase
