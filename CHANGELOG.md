@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [11.0.0] - TBD
+## [11.0.0] - 2026-11-03
 ### Added
 - Support for Laravel 13.0
 - Support for PHPUnit 13.0
